@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace/>
+        <PackageId>Umi.Wbp.Core</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Volo.Abp.Core" Version="6.0.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <UseWpf>true</UseWpf>
+        <RootNamespace />
+        <PackageId>Umi.Wbp.Dialogs</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+    </ItemGroup>
+</Project>

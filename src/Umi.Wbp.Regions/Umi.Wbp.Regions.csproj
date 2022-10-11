@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <UseWpf>true</UseWpf>
+        <RootNamespace />
+        <PackageId>Umi.Wbp.Regions</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Umi.Wbp.Mvvm\Umi.Wbp.Mvvm.csproj" />
+    </ItemGroup>
+
+</Project>

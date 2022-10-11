@@ -1,0 +1,14 @@
+<Project>
+    <PropertyGroup>
+        <Company>Umi</Company>
+        <Version>1.0.2</Version>
+        <Authors>YangYang</Authors>
+        <PackageTags>wpf,wbp</PackageTags>
+        <Description>WBP Framework is based on the ABP Framework &amp; Prism &amp; .NET Community Toolkit to create modern wpf applications.</Description>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
+        <Copyright>© Umi Team. All rights reserved.</Copyright>
+        <PackageProjectUrl>https://wbp.umi.xyz</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/UmiTeam/wbp</RepositoryUrl>
+        <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+    </PropertyGroup>
+</Project>

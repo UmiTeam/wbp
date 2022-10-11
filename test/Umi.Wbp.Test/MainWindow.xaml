@@ -1,0 +1,24 @@
+﻿<Window x:Class="Umi.Wbp.Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Umi.Wbp.Test"
+        xmlns:prism="clr-namespace:Umi.Wbp.Regions;assembly=Umi.Wbp.Regions"
+        mc:Ignorable="d" Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <Label Name="HelloLabel" FontSize="60" HorizontalAlignment="Center"/>
+        <Button Content="ShowDialog" Click="ShowDialog_OnClick"></Button>
+        <Button Content="ShowDialogWithCustomWindow" Click="ShowDialogWithCustomWindow_OnClick"></Button>
+        <Button Content="ShowWithCustomWindow" Click="ShowWithCustomWindow_OnClick"></Button>
+        <Button Content="RequestNavigation" Click="RequestNavigation_OnClick"></Button>
+        <Button Content="RequestNavigationBack" Click="RequestNavigationBack_OnClick"></Button>
+        <Button Content="RequestNavigationForward" Click="RequestNavigationForward_OnClick"></Button>
+        <Border BorderBrush="Black" BorderThickness="0.5" Margin="5" Padding="5">
+            <prism:RegionControl RegionName="TestRegion">
+                <TextBlock Text="1212"></TextBlock>
+            </prism:RegionControl>
+            <!-- <ContentControl prism:RegionManager.RegionName="TestRegion"/> -->
+        </Border>
+    </StackPanel>
+</Window>
