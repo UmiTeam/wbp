@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <Company>Umi</Company>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <Authors>YangYang</Authors>
         <PackageTags>wpf,wbp</PackageTags>
         <Description>WBP Framework is based on the ABP Framework &amp; Prism &amp; .NET Community Toolkit to create modern wpf applications.</Description>
