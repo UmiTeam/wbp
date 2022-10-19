@@ -22,8 +22,7 @@ public static class IAsyncRelayCommandExtensions
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="command"/> is <see langword="null"/>.</exception>
     public static ICommand CreateCancelCommand(this IAsyncRelayCommand command)
     {
-        ArgumentNullException.ThrowIfNull(command);
-
+        if (command == null) throw new ArgumentNullException(nameof(command));
         // If the command is known not to ever allow cancellation, just reuse the same instance
         if (command is ICancellationAwareCommand { IsCancellationSupported: false })
         {

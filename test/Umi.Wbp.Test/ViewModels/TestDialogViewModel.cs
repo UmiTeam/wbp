@@ -12,7 +12,8 @@ public class TestDialogViewModel : ObservableObject, IDialogAware, ITransientDep
     private readonly HelloWorldService helloWorldService;
     private readonly IEventAggregator eventAggregator;
 
-    public TestDialogViewModel(HelloWorldService helloWorldService, IEventAggregator eventAggregator){
+    public TestDialogViewModel(HelloWorldService helloWorldService, IEventAggregator eventAggregator)
+    {
         this.helloWorldService = helloWorldService;
         this.eventAggregator = eventAggregator;
         HelloWorldString = helloWorldService.SayHello();
@@ -27,14 +28,17 @@ public class TestDialogViewModel : ObservableObject, IDialogAware, ITransientDep
         set => SetProperty(ref helloWorldString, value);
     }
 
-    public bool CanCloseDialog(){
+    public bool CanCloseDialog()
+    {
         return true;
     }
 
-    public void OnDialogClosed(){
+    public void OnDialogClosed()
+    {
     }
 
-    public void OnDialogOpened(IDialogParameters parameters){
+    public void OnDialogOpened(IDialogParameters parameters)
+    {
     }
 
     public string Title => helloWorldService.SayHello();

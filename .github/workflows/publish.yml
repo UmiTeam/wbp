@@ -19,17 +19,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Pack packages
         run: dotnet pack -c Release -o nupkgs
-      - name: Publish Umi.Wbp.Core package
-        run: dotnet nuget push "*/Umi.Wbp.Core.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Publish Umi.Wbp.Mvvm package
-        run: dotnet nuget push "*/Umi.Wbp.Mvvm.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Publish Umi.Wbp.Dialogs package
-        run: dotnet nuget push "*/Umi.Wbp.Dialogs.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Publish Umi.Wbp.Regions package
-        run: dotnet nuget push "*/Umi.Wbp.Regions.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Publish Umi.Wbp.Commands package
-        run: dotnet nuget push "*/Umi.Wbp.Commands.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: Publish Umi.Wbp.Events package
-        run: dotnet nuget push "*/Umi.Wbp.Events.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Delete test packages
+        run: rm -f ./nupkgs/Umi.Wbp.*.Test.nupkg
       - name: Publish Umi.Wbp package
         run: dotnet nuget push "*/Umi.Wbp.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate

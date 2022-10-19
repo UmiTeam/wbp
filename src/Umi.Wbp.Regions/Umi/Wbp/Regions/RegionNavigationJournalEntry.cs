@@ -5,7 +5,8 @@ namespace Umi.Wbp.Regions;
 
 public class RegionNavigationJournalEntry : IRegionNavigationJournalEntry
 {
-    public RegionNavigationJournalEntry(Uri uri, NavigationParameters parameters, FrameworkElement view){
+    public RegionNavigationJournalEntry(Uri uri, NavigationParameters parameters, FrameworkElement view)
+    {
         Uri = uri;
         Parameters = parameters;
         View = view;

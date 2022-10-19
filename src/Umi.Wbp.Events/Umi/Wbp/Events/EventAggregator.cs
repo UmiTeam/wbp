@@ -22,18 +22,22 @@ namespace Umi.Wbp.Events
         /// <typeparam name="TEventType">The type of event to get. This must inherit from <see cref="EventBase"/>.</typeparam>
         /// <returns>A singleton instance of an event object of type <typeparamref name="TEventType"/>.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        public TEventType GetEvent<TEventType>() where TEventType : EventBase, new(){
-            lock (events){
+        public TEventType GetEvent<TEventType>() where TEventType : EventBase, new()
+        {
+            lock (events)
+            {
                 EventBase existingEvent = null;
 
-                if (!events.TryGetValue(typeof(TEventType), out existingEvent)){
+                if (!events.TryGetValue(typeof(TEventType), out existingEvent))
+                {
                     TEventType newEvent = new TEventType();
                     newEvent.SynchronizationContext = syncContext;
                     events[typeof(TEventType)] = newEvent;
 
                     return newEvent;
                 }
-                else{
+                else
+                {
                     return (TEventType)existingEvent;
                 }
             }

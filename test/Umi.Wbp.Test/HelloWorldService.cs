@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Test;
@@ -11,16 +11,19 @@ public class HelloWorldService : ITransientDependency
 {
     public ILogger<HelloWorldService> Logger { get; set; }
 
-    public HelloWorldService(){
+    public HelloWorldService()
+    {
         Logger = NullLogger<HelloWorldService>.Instance;
     }
 
-    public string SayHello(){
+    public string SayHello()
+    {
         Logger.LogInformation("Call SayHello");
         return "Hello Wbp!";
     }
 
-    public async Task<string> SayHelloAsync(){
+    public async Task<string> SayHelloAsync()
+    {
         Task<string> task = new Task<string>(() =>
         {
             Logger.LogInformation("Call SayHello");

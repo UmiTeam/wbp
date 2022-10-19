@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Windows;
+using System.Windows.Threading;
 using Volo.Abp;
 
 namespace Umi.Wbp;
@@ -12,7 +12,8 @@ public abstract class WbpApplication : Application
 {
     protected IAbpApplicationWithInternalServiceProvider AbpApplication { get; private set; }
 
-    protected override async void OnStartup(StartupEventArgs e){
+    protected override async void OnStartup(StartupEventArgs e)
+    {
         ShutdownMode = ShutdownMode.OnMainWindowClose;
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
@@ -25,7 +26,8 @@ public abstract class WbpApplication : Application
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .CreateLogger();
 
-        try{
+        try
+        {
             Log.Information("Starting WPF host.");
 
             AbpApplication = await AbpApplicationFactory.CreateAsync(GetStartModuleType(), options =>
@@ -41,7 +43,8 @@ public abstract class WbpApplication : Application
             MainWindow = GetMainWindow();
             MainWindow.Show();
         }
-        catch (Exception ex){
+        catch (Exception ex)
+        {
             Log.Fatal(ex, "Host terminated unexpectedly!");
         }
     }
@@ -50,11 +53,13 @@ public abstract class WbpApplication : Application
 
     protected abstract Window GetMainWindow();
 
-    protected virtual void ExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs args){
+    protected virtual void ExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs args)
+    {
         Log.Error(args.Exception, "Unhandled exception!");
     }
 
-    protected override async void OnExit(ExitEventArgs e){
+    protected override async void OnExit(ExitEventArgs e)
+    {
         await AbpApplication.ShutdownAsync();
         Log.CloseAndFlush();
     }

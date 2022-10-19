@@ -6,7 +6,8 @@ namespace Umi.Wbp.Test;
 
 public partial class TestDialogWindow : Window, IDialogWindow, ITransientDependency
 {
-    public TestDialogWindow(){
+    public TestDialogWindow()
+    {
         InitializeComponent();
     }
 

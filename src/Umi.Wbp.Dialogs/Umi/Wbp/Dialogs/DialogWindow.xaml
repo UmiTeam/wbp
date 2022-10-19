@@ -8,5 +8,4 @@
             <Setter Property="SizeToContent" Value="WidthAndHeight" />
         </Style>
     </Window.Style>
-
 </Window>

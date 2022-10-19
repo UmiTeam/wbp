@@ -15,7 +15,8 @@ namespace Umi.Wbp.Events
         /// Adds a weak reference to the specified <see cref="Delegate"/> listener.
         /// </summary>
         /// <param name="listener">The original <see cref="Delegate"/> to add.</param>
-        public void AddListener(Delegate listener){
+        public void AddListener(Delegate listener)
+        {
             _listeners.Add(new DelegateReference(listener, false));
         }
 
@@ -23,7 +24,8 @@ namespace Umi.Wbp.Events
         /// Removes the weak reference to the specified <see cref="Delegate"/> listener.
         /// </summary>
         /// <param name="listener">The original <see cref="Delegate"/> to remove.</param>
-        public void RemoveListener(Delegate listener){
+        public void RemoveListener(Delegate listener)
+        {
             //Remove the listener, and prune collected listeners
             _listeners.RemoveAll(reference => reference.TargetEquals(null) || reference.TargetEquals(listener));
         }
@@ -32,10 +34,12 @@ namespace Umi.Wbp.Events
         /// Invoke the delegates for all targets still being alive.
         /// </summary>
         /// <param name="args">An array of objects that are the arguments to pass to the delegates. -or- null, if the method represented by the delegate does not require arguments. </param>
-        public void Raise(params object[] args){
+        public void Raise(params object[] args)
+        {
             _listeners.RemoveAll(listener => listener.TargetEquals(null));
 
-            foreach (Delegate handler in _listeners.Select(listener => listener.Target).Where(listener => listener != null).ToList()){
+            foreach (Delegate handler in _listeners.Select(listener => listener.Target).Where(listener => listener != null).ToList())
+            {
                 handler.DynamicInvoke(args);
             }
         }

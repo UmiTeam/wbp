@@ -25,38 +25,48 @@ public class RegionControl : ContentControl, IRegion
         set => SetValue(RegionNameProperty, value);
     }
 
-    private static void OnRegionNameChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args){
-        if (obj is RegionControl region && args.NewValue is string regionName){
+    private static void OnRegionNameChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+    {
+        if (obj is RegionControl region && args.NewValue is string regionName)
+        {
             RegionDictionary.TryAdd(regionName, region);
         }
     }
 
-    public static bool ValidateRegionName(object value){
+    public static bool ValidateRegionName(object value)
+    {
         if (value is string regionName && !RegionDictionary.ContainsKey(regionName)) return true;
         return false;
     }
 
-    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback){
+    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback)
+    {
         RequestNavigate(target, navigationCallback, new NavigationParameters());
     }
 
-    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters){
+    public void RequestNavigate(Uri target, Action<NavigationResult> navigationCallback, NavigationParameters navigationParameters)
+    {
         var uriParameter = UriParsingHelper.ParseQuery(target);
-        foreach (var (key, value) in uriParameter){
+        foreach (var (key, value) in uriParameter)
+        {
             navigationParameters.Add(key, value);
         }
 
         NavigationContext navigationContext = new(navigationParameters, target);
         RaiseNavigating(navigationContext);
-        if (Views.TryGetValue(target, out var view)){
-            if (CurrentEntry?.View is IConfirmNavigationRequest confirmNavigationRequest){
+        if (Views.TryGetValue(target, out var view))
+        {
+            if (CurrentEntry?.View is IConfirmNavigationRequest confirmNavigationRequest)
+            {
                 confirmNavigationRequest.ConfirmNavigationRequest(navigationContext, canNavigate => { RequestNavigate(target, view, navigationContext, navigationCallback); });
             }
-            else{
+            else
+            {
                 RequestNavigate(target, view, navigationContext, navigationCallback);
             }
         }
-        else{
+        else
+        {
             navigationCallback?.Invoke(new NavigationResult(navigationContext, false));
             RaiseNavigationFailed(navigationContext, new BusinessException("No such uri view!"));
         }
@@ -64,7 +74,8 @@ public class RegionControl : ContentControl, IRegion
 
     public IDictionary<Uri, FrameworkElement> Views { get; } = new Dictionary<Uri, FrameworkElement>();
 
-    public void Add(Uri uri, FrameworkElement view){
+    public void Add(Uri uri, FrameworkElement view)
+    {
         Views.TryAdd(uri, view);
     }
 
@@ -73,13 +84,15 @@ public class RegionControl : ContentControl, IRegion
     public bool CanGoForward => forwardStack.Count > 0;
     public IRegionNavigationJournalEntry CurrentEntry { get; private set; }
 
-    public void GoBack(){
+    public void GoBack()
+    {
         if (!CanGoBack) throw new BusinessException("Can not go back!");
         var journalEntry = backStack.Peek();
         var previousCurrentEntry = CurrentEntry;
         RequestNavigate(journalEntry.Uri, navigationResult =>
         {
-            if (navigationResult.Result == true){
+            if (navigationResult.Result == true)
+            {
                 forwardStack.Push(previousCurrentEntry);
                 backStack.Pop();
                 backStack.Pop();
@@ -87,23 +100,27 @@ public class RegionControl : ContentControl, IRegion
         }, journalEntry.Parameters);
     }
 
-    public void GoForward(){
+    public void GoForward()
+    {
         if (!CanGoForward) throw new BusinessException("Can not go forward!");
         var journalEntry = forwardStack.Peek();
         RequestNavigate(journalEntry.Uri, navigationResult =>
         {
-            if (navigationResult.Result == true){
+            if (navigationResult.Result == true)
+            {
                 forwardStack.Pop();
             }
         }, journalEntry.Parameters);
     }
 
-    public void RecordNavigation(IRegionNavigationJournalEntry entry){
+    public void RecordNavigation(IRegionNavigationJournalEntry entry)
+    {
         if (CurrentEntry != null) backStack.Push(CurrentEntry);
         CurrentEntry = entry;
     }
 
-    public void Clear(){
+    public void Clear()
+    {
         backStack.Clear();
         forwardStack.Clear();
     }
@@ -112,20 +129,25 @@ public class RegionControl : ContentControl, IRegion
     public event EventHandler<RegionNavigationEventArgs> Navigated;
     public event EventHandler<RegionNavigationFailedEventArgs> NavigationFailed;
 
-    private void RaiseNavigating(NavigationContext navigationContext){
+    private void RaiseNavigating(NavigationContext navigationContext)
+    {
         Navigating?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
     }
 
-    private void RaiseNavigated(NavigationContext navigationContext){
+    private void RaiseNavigated(NavigationContext navigationContext)
+    {
         Navigated?.Invoke(this, new RegionNavigationEventArgs(navigationContext));
     }
 
-    private void RaiseNavigationFailed(NavigationContext navigationContext, Exception error){
+    private void RaiseNavigationFailed(NavigationContext navigationContext, Exception error)
+    {
         NavigationFailed?.Invoke(this, new RegionNavigationFailedEventArgs(navigationContext, error));
     }
 
-    private void RequestNavigate(Uri uri, FrameworkElement view, NavigationContext navigationContext, Action<NavigationResult> navigationCallback){
-        if (!isNavigationTarget(view, navigationContext)){
+    private void RequestNavigate(Uri uri, FrameworkElement view, NavigationContext navigationContext, Action<NavigationResult> navigationCallback)
+    {
+        if (!isNavigationTarget(view, navigationContext))
+        {
             NotifyNavigationFailed(navigationContext, navigationCallback, new BusinessException("Is not navigation target view!"));
             return;
         }
@@ -144,7 +166,8 @@ public class RegionControl : ContentControl, IRegion
         RaiseNavigated(navigationContext);
     }
 
-    private void NotifyNavigationFailed(NavigationContext navigationContext, Action<NavigationResult> navigationCallback, Exception e){
+    private void NotifyNavigationFailed(NavigationContext navigationContext, Action<NavigationResult> navigationCallback, Exception e)
+    {
         var navigationResult =
             e != null ? new NavigationResult(navigationContext, e) : new NavigationResult(navigationContext, false);
 
@@ -152,16 +175,21 @@ public class RegionControl : ContentControl, IRegion
         RaiseNavigationFailed(navigationContext, e);
     }
 
-    private bool isNavigationTarget(FrameworkElement view, NavigationContext navigationContext){
+    private bool isNavigationTarget(FrameworkElement view, NavigationContext navigationContext)
+    {
         var isNavigationTarget = true;
-        if (view is INavigationAware viewNavigationAware){
-            if (!viewNavigationAware.IsNavigationTarget(navigationContext)){
+        if (view is INavigationAware viewNavigationAware)
+        {
+            if (!viewNavigationAware.IsNavigationTarget(navigationContext))
+            {
                 isNavigationTarget = false;
             }
         }
 
-        if (view.DataContext is INavigationAware dataContextNavigationAware){
-            if (!dataContextNavigationAware.IsNavigationTarget(navigationContext)){
+        if (view.DataContext is INavigationAware dataContextNavigationAware)
+        {
+            if (!dataContextNavigationAware.IsNavigationTarget(navigationContext))
+            {
                 isNavigationTarget = false;
             }
         }

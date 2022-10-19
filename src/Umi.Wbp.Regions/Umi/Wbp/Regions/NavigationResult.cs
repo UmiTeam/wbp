@@ -12,11 +12,12 @@ namespace Umi.Wbp.Regions
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="result">The result.</param>
-        public NavigationResult(NavigationContext context, bool? result){
+        public NavigationResult(NavigationContext context, bool? result)
+        {
             this.Context = context;
             this.Result = result;
         }
-        
+
         public NavigationResult(NavigationContext context, Exception error)
         {
             this.Context = context;

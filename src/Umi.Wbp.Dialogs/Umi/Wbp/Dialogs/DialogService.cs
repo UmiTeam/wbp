@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Dialogs
@@ -17,27 +17,33 @@ namespace Umi.Wbp.Dialogs
     {
         private readonly IServiceProvider serviceProvider;
 
-        public DialogService(IServiceProvider serviceProvider){
+        public DialogService(IServiceProvider serviceProvider)
+        {
             this.serviceProvider = serviceProvider;
         }
 
-        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement{
+        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement
+        {
             ShowDialogInternal(typeof(T), parameters, callback, false);
         }
 
-        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement{
+        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement
+        {
             ShowDialogInternal(typeof(T), parameters, callback, false, windowName);
         }
 
-        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement{
+        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement
+        {
             ShowDialogInternal(typeof(T), parameters, callback, true);
         }
 
-        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement{
+        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement
+        {
             ShowDialogInternal(typeof(T), parameters, callback, true, windowName);
         }
 
-        void ShowDialogInternal(Type contentType, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){
+        void ShowDialogInternal(Type contentType, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
+        {
             if (parameters == null)
                 parameters = new DialogParameters();
 
@@ -53,7 +59,8 @@ namespace Umi.Wbp.Dialogs
         /// </summary>
         /// <param name="dialogWindow">The dialog window to show.</param>
         /// <param name="isModal">If true; dialog is shown as a modal</param>
-        protected virtual void ShowDialogWindow(IDialogWindow dialogWindow, bool isModal){
+        protected virtual void ShowDialogWindow(IDialogWindow dialogWindow, bool isModal)
+        {
             if (isModal)
                 dialogWindow.ShowDialog();
             else
@@ -65,10 +72,13 @@ namespace Umi.Wbp.Dialogs
         /// </summary>
         /// <param name="name">The name of the hosting window registered with the IContainerRegistry.</param>
         /// <returns>The created <see cref="IDialogWindow"/>.</returns>
-        protected virtual IDialogWindow CreateDialogWindow(string name){
+        protected virtual IDialogWindow CreateDialogWindow(string name)
+        {
             if (string.IsNullOrWhiteSpace(name)) name = nameof(DialogWindow);
-            foreach (var dialogWindow in serviceProvider.GetServices<IDialogWindow>()){
-                if (dialogWindow.GetType().Name == name){
+            foreach (var dialogWindow in serviceProvider.GetServices<IDialogWindow>())
+            {
+                if (dialogWindow.GetType().Name == name)
+                {
                     return dialogWindow;
                 }
             }
@@ -82,7 +92,8 @@ namespace Umi.Wbp.Dialogs
         /// <param name="dialogName">The name of the dialog to show.</param>
         /// <param name="window">The hosting window.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
-        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IDialogParameters parameters){
+        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IDialogParameters parameters)
+        {
             var content = serviceProvider.GetRequiredService(contentType);
             if (!(content is FrameworkElement dialogContent))
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
@@ -100,7 +111,8 @@ namespace Umi.Wbp.Dialogs
         /// </summary>
         /// <param name="dialogWindow">The hosting window.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback){
+        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
+        {
             Action<IDialogResult> requestCloseHandler = null;
             requestCloseHandler = (o) =>
             {
@@ -150,7 +162,8 @@ namespace Umi.Wbp.Dialogs
         /// <param name="window">The hosting window.</param>
         /// <param name="dialogContent">The dialog to show.</param>
         /// <param name="viewModel">The dialog's ViewModel.</param>
-        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel){
+        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        {
             var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)
                 window.Style = windowStyle;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Umi.Wbp.Common
+namespace Umi.Wbp.Core.Common
 {
     /// <summary>
     /// Extension methods for Navigation or Dialog parameters

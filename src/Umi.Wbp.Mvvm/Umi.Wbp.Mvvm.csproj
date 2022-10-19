@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFrameworks>net6.0-windows;net5.0-windows</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
         <UseWpf>true</UseWpf>
         <PackageId>Umi.Wbp.Mvvm</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+        <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
     </ItemGroup>
 
 </Project>

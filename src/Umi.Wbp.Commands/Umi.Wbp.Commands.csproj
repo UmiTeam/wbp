@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace />
+        <TargetFrameworks>net6.0;net5.0</TargetFrameworks>
+        <RootNamespace/>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
         <PackageId>Umi.Wbp.Commands</PackageId>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.Core" Version="6.0.0" />
-    </ItemGroup>
 
 </Project>

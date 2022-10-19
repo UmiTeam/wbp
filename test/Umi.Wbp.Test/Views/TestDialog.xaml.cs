@@ -5,7 +5,8 @@ namespace Umi.Wbp.Test.Views;
 
 public partial class TestDialog : UserControl, ITransientDependency
 {
-    public TestDialog(){
+    public TestDialog()
+    {
         InitializeComponent();
     }
 }

@@ -1,5 +1,4 @@
-
-using Umi.Wbp.Common;
+using Umi.Wbp.Core.Common;
 
 namespace Umi.Wbp.Regions
 {

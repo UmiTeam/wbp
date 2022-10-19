@@ -16,7 +16,8 @@ namespace Umi.Wbp.Dialogs
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogWindow"/> class.
         /// </summary>
-        public DialogWindow(){
+        public DialogWindow()
+        {
             InitializeComponent();
         }
     }

@@ -3,7 +3,7 @@ namespace Umi.Wbp.Events
     /// <summary>
     /// Defines an interface to get instances of an event type.
     /// </summary>
-    public interface IEventAggregator 
+    public interface IEventAggregator
     {
         /// <summary>
         /// Gets an instance of an event type.

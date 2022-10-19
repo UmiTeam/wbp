@@ -80,8 +80,7 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> is <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<Task> execute)
     {
-        ArgumentNullException.ThrowIfNull(execute);
-
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
         this.execute = execute;
     }
 
@@ -93,7 +92,8 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> is <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<Task> execute, AsyncRelayCommandOptions options)
     {
-        ArgumentNullException.ThrowIfNull(execute);
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
+
 
         this.execute = execute;
         this.options = options;
@@ -106,7 +106,8 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="cancelableExecute"/> is <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute)
     {
-        ArgumentNullException.ThrowIfNull(cancelableExecute);
+        if (cancelableExecute == null) throw new ArgumentNullException(nameof(cancelableExecute));
+
 
         this.cancelableExecute = cancelableExecute;
     }
@@ -119,7 +120,8 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="cancelableExecute"/> is <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute, AsyncRelayCommandOptions options)
     {
-        ArgumentNullException.ThrowIfNull(cancelableExecute);
+        if (cancelableExecute == null) throw new ArgumentNullException(nameof(cancelableExecute));
+
 
         this.cancelableExecute = cancelableExecute;
         this.options = options;
@@ -133,8 +135,8 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> or <paramref name="canExecute"/> are <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute)
     {
-        ArgumentNullException.ThrowIfNull(execute);
-        ArgumentNullException.ThrowIfNull(canExecute);
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
+        if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
 
         this.execute = execute;
         this.canExecute = canExecute;
@@ -149,8 +151,8 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> or <paramref name="canExecute"/> are <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<Task> execute, Func<bool> canExecute, AsyncRelayCommandOptions options)
     {
-        ArgumentNullException.ThrowIfNull(execute);
-        ArgumentNullException.ThrowIfNull(canExecute);
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
+        if (cancelableExecute == null) throw new ArgumentNullException(nameof(cancelableExecute));
 
         this.execute = execute;
         this.canExecute = canExecute;
@@ -165,8 +167,9 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="cancelableExecute"/> or <paramref name="canExecute"/> are <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute)
     {
-        ArgumentNullException.ThrowIfNull(cancelableExecute);
-        ArgumentNullException.ThrowIfNull(canExecute);
+        if (cancelableExecute == null) throw new ArgumentNullException(nameof(cancelableExecute));
+        if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
+
 
         this.cancelableExecute = cancelableExecute;
         this.canExecute = canExecute;
@@ -181,8 +184,9 @@ public sealed class AsyncRelayCommand : IAsyncRelayCommand, ICancellationAwareCo
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="cancelableExecute"/> or <paramref name="canExecute"/> are <see langword="null"/>.</exception>
     public AsyncRelayCommand(Func<CancellationToken, Task> cancelableExecute, Func<bool> canExecute, AsyncRelayCommandOptions options)
     {
-        ArgumentNullException.ThrowIfNull(cancelableExecute);
-        ArgumentNullException.ThrowIfNull(canExecute);
+        if (cancelableExecute == null) throw new ArgumentNullException(nameof(cancelableExecute));
+        if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
+
 
         this.cancelableExecute = cancelableExecute;
         this.canExecute = canExecute;

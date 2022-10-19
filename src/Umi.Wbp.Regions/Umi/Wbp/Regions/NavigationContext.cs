@@ -4,7 +4,8 @@ namespace Umi.Wbp.Regions;
 
 public class NavigationContext
 {
-    public NavigationContext(NavigationParameters parameters, Uri uri){
+    public NavigationContext(NavigationParameters parameters, Uri uri)
+    {
         Parameters = parameters;
         Uri = uri;
     }

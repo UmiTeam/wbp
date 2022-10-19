@@ -38,7 +38,7 @@ public sealed class RelayCommand : IRelayCommand
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> is <see langword="null"/>.</exception>
     public RelayCommand(Action execute)
     {
-        ArgumentNullException.ThrowIfNull(execute);
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
 
         this.execute = execute;
     }
@@ -51,8 +51,8 @@ public sealed class RelayCommand : IRelayCommand
     /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="execute"/> or <paramref name="canExecute"/> are <see langword="null"/>.</exception>
     public RelayCommand(Action execute, Func<bool> canExecute)
     {
-        ArgumentNullException.ThrowIfNull(execute);
-        ArgumentNullException.ThrowIfNull(canExecute);
+        if (execute == null) throw new ArgumentNullException(nameof(execute));
+        if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
 
         this.execute = execute;
         this.canExecute = canExecute;

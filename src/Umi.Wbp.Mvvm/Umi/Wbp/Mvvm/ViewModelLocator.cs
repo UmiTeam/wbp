@@ -1,7 +1,7 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using Umi.Wbp.Helpers;
+using System;
 using System.Windows;
+using Umi.Wbp.Core;
 
 namespace Umi.Wbp.Mvvm
 {
@@ -10,18 +10,22 @@ namespace Umi.Wbp.Mvvm
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.RegisterAttached("ViewModel", typeof(Type), typeof(ViewModelLocator),
             new PropertyMetadata(defaultValue: null, propertyChangedCallback: ViewModelChanged));
 
-        public static void SetViewModel(DependencyObject obj, Type value){
+        public static void SetViewModel(DependencyObject obj, Type value)
+        {
             obj.SetValue(ViewModelProperty, value);
         }
 
-        public static Type GetViewModel(DependencyObject obj){
+        public static Type GetViewModel(DependencyObject obj)
+        {
             return (Type)obj.GetValue(ViewModelProperty);
         }
 
 
-        private static void ViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e){
-            if (d is FrameworkElement element && e.NewValue is Type type){
-                var viewModel = IocHelper.ServiceCollection.GetRequiredService(type);
+        private static void ViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FrameworkElement element && e.NewValue is Type type)
+            {
+                var viewModel = IocHelper.Services.GetRequiredService(type);
                 element.DataContext = viewModel;
             }
         }

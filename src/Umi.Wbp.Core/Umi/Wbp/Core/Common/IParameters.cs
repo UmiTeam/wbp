@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Umi.Wbp.Common
+namespace Umi.Wbp.Core.Common
 {
     /// <summary>
     /// Defines a contract for specifying values associated with a unique key.

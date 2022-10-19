@@ -12,13 +12,13 @@ namespace Umi.Wbp.Regions
         /// Gets or sets the URI.
         /// </summary>
         /// <value>The URI.</value>
-        Uri Uri { get;  }
+        Uri Uri { get; }
 
         /// <summary>
         /// Gets or sets the NavigationParameters instance.
         /// </summary>
-        NavigationParameters Parameters { get;  }
+        NavigationParameters Parameters { get; }
 
-        FrameworkElement View { get;  }
+        FrameworkElement View { get; }
     }
 }

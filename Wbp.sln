@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Commands", "src\Umi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Events", "src\Umi.Wbp.Events\Umi.Wbp.Events.csproj", "{F698B8D3-3034-46AC-A42A-13A1B4504E9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Converters", "src\Umi.Wbp.Converters\Umi.Wbp.Converters.csproj", "{8490FD37-BD80-4D11-8C4E-561444D04965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,7 @@ Global
 		{D017BB91-0E68-4B85-9DFC-CE7092274939} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{26DEEF34-B76B-4193-B231-5A3A24EE4528} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{F698B8D3-3034-46AC-A42A-13A1B4504E9B} = {5F61B209-77DE-46F9-993E-44825409C4F5}
+		{8490FD37-BD80-4D11-8C4E-561444D04965} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6A1AE2F3-33DA-4FF7-8795-7971A52283B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -68,5 +71,9 @@ Global
 		{F698B8D3-3034-46AC-A42A-13A1B4504E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F698B8D3-3034-46AC-A42A-13A1B4504E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F698B8D3-3034-46AC-A42A-13A1B4504E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8490FD37-BD80-4D11-8C4E-561444D04965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8490FD37-BD80-4D11-8C4E-561444D04965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8490FD37-BD80-4D11-8C4E-561444D04965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8490FD37-BD80-4D11-8C4E-561444D04965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

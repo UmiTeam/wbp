@@ -16,7 +16,8 @@ public class TestViewModel : ObservableObject, ITransientDependency, INavigation
     private readonly IEventAggregator eventAggregator;
     private readonly IRegionService regionService;
 
-    public TestViewModel(HelloWorldService helloWorldService, IEventAggregator eventAggregator, IRegionService regionService){
+    public TestViewModel(HelloWorldService helloWorldService, IEventAggregator eventAggregator, IRegionService regionService)
+    {
         this.helloWorldService = helloWorldService;
         this.eventAggregator = eventAggregator;
         this.regionService = regionService;
@@ -33,8 +34,10 @@ public class TestViewModel : ObservableObject, ITransientDependency, INavigation
         set => SetProperty(ref helloWorldString, value);
     }
 
-    public void OnNavigatedTo(NavigationContext navigationContext){
-        if (navigationContext.Parameters.TryGetValue("Identifier", out string identifier)){
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        if (navigationContext.Parameters.TryGetValue("Identifier", out string identifier))
+        {
             HelloWorldString = helloWorldService.SayHello() + identifier;
         }
         MessageBox.Show("To: " + HelloWorldString);
@@ -42,13 +45,15 @@ public class TestViewModel : ObservableObject, ITransientDependency, INavigation
 
     public bool IsNavigationTarget(NavigationContext navigationContext) => true;
 
-    public void OnNavigatedFrom(NavigationContext navigationContext){
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
         MessageBox.Show("From: " + HelloWorldString);
     }
 
     public ICommand TestCommand { get; set; }
 
-    private async Task Test(){
+    private async Task Test()
+    {
         eventAggregator.GetEvent<TestEvent>().Publish(await helloWorldService.SayHelloAsync() + "Async invoked!!!");
     }
 }
