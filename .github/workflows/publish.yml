@@ -19,7 +19,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Pack packages
         run: dotnet pack -c Release -o nupkgs
-      - name: Delete test packages
-        run: rm -f ./nupkgs/Umi.Wbp.Demo.nupkg
+      - name: Delete demo packages
+        run: rm -f ./nupkgs/Umi.Wbp.Demo.*.nupkg
       - name: Publish Umi.Wbp package
         run: dotnet nuget push "*/Umi.Wbp.*.*.*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate

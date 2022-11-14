@@ -48,6 +48,8 @@ public abstract class WbpApplication<TModule, TWindow> : Application where TModu
 
             DispatcherUnhandledException += OnAbpApplicationError;
 
+            OnAbpApplicationInitialized();
+
             if (AbpApplication.Services.GetRequiredService(typeof(TWindow)) is Window mainWindow){
                 MainWindow = mainWindow;
                 MainWindow.Show();
