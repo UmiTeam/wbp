@@ -6,7 +6,7 @@ namespace Umi.Wbp.Dialogs
     /// <summary>
     /// Prism's default dialog host.
     /// </summary>
-    public partial class DialogWindow : Window, IDialogWindow, ITransientDependency
+    public partial class DialogWindow : Window, IDialogWindow
     {
         /// <summary>
         /// The <see cref="IDialogResult"/> of the dialog.
@@ -16,8 +16,7 @@ namespace Umi.Wbp.Dialogs
         /// <summary>
         /// Initializes a new instance of the <see cref="DialogWindow"/> class.
         /// </summary>
-        public DialogWindow()
-        {
+        public DialogWindow(){
             InitializeComponent();
         }
     }

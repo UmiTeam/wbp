@@ -2,7 +2,10 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
+using JetBrains.Annotations;
+using Ookii.Dialogs.Wpf;
 using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Dialogs
@@ -10,75 +13,103 @@ namespace Umi.Wbp.Dialogs
     /// <summary>
     /// Implements <see cref="IDialogService"/> to show modal and non-modal dialogs.
     /// </summary>
-    /// <remarks>
-    /// The dialog's ViewModel must implement IDialogAware.
-    /// </remarks>
     public class DialogService : IDialogService, ITransientDependency
     {
         private readonly IServiceProvider serviceProvider;
 
-        public DialogService(IServiceProvider serviceProvider)
-        {
+        public DialogService(IServiceProvider serviceProvider){
             this.serviceProvider = serviceProvider;
         }
 
-        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement
-        {
+        public void Show<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
             ShowDialogInternal(typeof(T), parameters, callback, false);
         }
 
-        public void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement
-        {
-            ShowDialogInternal(typeof(T), parameters, callback, false, windowName);
+        public void Show<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
+            ShowDialogInternal(typeof(V), parameters, callback, false, typeof(W).Name);
         }
 
-        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement
-        {
+        public void ShowDialog<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
             ShowDialogInternal(typeof(T), parameters, callback, true);
         }
 
-        public void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement
-        {
-            ShowDialogInternal(typeof(T), parameters, callback, true, windowName);
+        public void ShowDialog<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
+            ShowDialogInternal(typeof(V), parameters, callback, true, typeof(W).Name);
         }
 
-        void ShowDialogInternal(Type contentType, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null)
-        {
-            if (parameters == null)
-                parameters = new DialogParameters();
+        public void ShowFileDialog(VistaFileDialog vistaFileDialog, Action<IDialogResult> callback = null){
+            DialogParameters dialogParameters = new();
+            DialogResult dialogResult;
+            if (vistaFileDialog.ShowDialog() ?? false){
+                dialogParameters.Add(DialogResultExtensions.FilePathsKey, vistaFileDialog.FileNames);
+                dialogResult = new(ButtonResult.Yes, dialogParameters);
+            }
+            else{
+                dialogResult = new(ButtonResult.No, dialogParameters);
+            }
+
+            callback?.Invoke(dialogResult);
+        }
+
+        public void ShowFolderBrowserDialog(VistaFolderBrowserDialog dialog, Action<IDialogResult> callback = null){
+            DialogParameters dialogParameters = new();
+            DialogResult dialogResult;
+            if (dialog.ShowDialog() ?? false){
+                dialogParameters.Add(DialogResultExtensions.FolderPathsKey, dialog.SelectedPaths);
+                dialogResult = new(ButtonResult.Yes, dialogParameters);
+            }
+            else{
+                dialogResult = new(ButtonResult.No, dialogParameters);
+            }
+
+            callback?.Invoke(dialogResult);
+        }
+
+        public void ShowProgressDialog(ProgressDialog dialog, Action<IDialogResult> callback = null){
+            dialog.RunWorkerCompleted += (sender, args) =>
+            {
+                DialogResult dialogResult;
+                DialogParameters dialogParameters = new();
+                if (args.Cancelled || args.Error != null){
+                    dialogParameters.Add(DialogResultExtensions.ProgressErrorKey, args.Error);
+                    if (args.Cancelled){
+                        dialogResult = new(ButtonResult.Cancel, dialogParameters);
+                    }
+                    else{
+                        dialogResult = new(ButtonResult.No, dialogParameters);
+                    }
+                }
+                else{
+                    dialogParameters.Add(DialogResultExtensions.ProgressResultKey, args.Result);
+                    dialogResult = new(ButtonResult.Yes, dialogParameters);
+                }
+
+                callback?.Invoke(dialogResult);
+            };
+            dialog.ShowDialog();
+        }
+
+        void ShowDialogInternal(Type contentType, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){
+            if (parameters == null) parameters = new DialogParameters();
 
             IDialogWindow dialogWindow = CreateDialogWindow(windowName);
-            ConfigureDialogWindowEvents(dialogWindow, callback);
+            ConfigureDialogWindowEvents(dialogWindow, callback, parameters);
             ConfigureDialogWindowContent(contentType, dialogWindow, parameters);
 
             ShowDialogWindow(dialogWindow, isModal);
         }
 
-        /// <summary>
-        /// Shows the dialog window.
-        /// </summary>
-        /// <param name="dialogWindow">The dialog window to show.</param>
-        /// <param name="isModal">If true; dialog is shown as a modal</param>
-        protected virtual void ShowDialogWindow(IDialogWindow dialogWindow, bool isModal)
-        {
+        protected virtual void ShowDialogWindow(IDialogWindow dialogWindow, bool isModal){
             if (isModal)
                 dialogWindow.ShowDialog();
             else
                 dialogWindow.Show();
         }
 
-        /// <summary>
-        /// Create a new <see cref="IDialogWindow"/>.
-        /// </summary>
-        /// <param name="name">The name of the hosting window registered with the IContainerRegistry.</param>
-        /// <returns>The created <see cref="IDialogWindow"/>.</returns>
-        protected virtual IDialogWindow CreateDialogWindow(string name)
-        {
+        protected virtual IDialogWindow CreateDialogWindow(string name){
             if (string.IsNullOrWhiteSpace(name)) name = nameof(DialogWindow);
-            foreach (var dialogWindow in serviceProvider.GetServices<IDialogWindow>())
-            {
-                if (dialogWindow.GetType().Name == name)
-                {
+            foreach (var dialogWindow in serviceProvider.GetServices<IDialogWindow>()){
+                if (dialogWindow.GetType().Name == name){
                     return dialogWindow;
                 }
             }
@@ -86,33 +117,24 @@ namespace Umi.Wbp.Dialogs
             return serviceProvider.GetRequiredService<IDialogWindow>();
         }
 
-        /// <summary>
-        /// Configure <see cref="IDialogWindow"/> content.
-        /// </summary>
-        /// <param name="dialogName">The name of the dialog to show.</param>
-        /// <param name="window">The hosting window.</param>
-        /// <param name="parameters">The parameters to pass to the dialog.</param>
-        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IDialogParameters parameters)
-        {
+
+        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IDialogParameters parameters){
             var content = serviceProvider.GetRequiredService(contentType);
             if (!(content is FrameworkElement dialogContent))
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
 
-            if (!(dialogContent.DataContext is IDialogAware viewModel))
-                throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
+            // if (!(dialogContent.DataContext is IDialogAware viewModel))
+            //     throw new NullReferenceException("A dialog's ViewModel must implement the IDialogAware interface");
 
-            ConfigureDialogWindowProperties(window, dialogContent, viewModel);
+            ConfigureDialogWindowProperties(window, dialogContent, dialogContent.DataContext);
 
-            viewModel.OnDialogOpened(parameters);
+            if (dialogContent.DataContext is IDialogAware dialogAware){
+                dialogAware.OnDialogOpened(parameters);
+            }
         }
 
-        /// <summary>
-        /// Configure <see cref="IDialogWindow"/> and <see cref="IDialogAware"/> events.
-        /// </summary>
-        /// <param name="dialogWindow">The hosting window.</param>
-        /// <param name="callback">The action to perform when the dialog is closed.</param>
-        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback)
-        {
+
+        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback, IDialogParameters dialogParameters){
             Action<IDialogResult> requestCloseHandler = null;
             requestCloseHandler = (o) =>
             {
@@ -124,15 +146,17 @@ namespace Umi.Wbp.Dialogs
             loadedHandler = (o, e) =>
             {
                 dialogWindow.Loaded -= loadedHandler;
-                dialogWindow.GetDialogViewModel().RequestClose += requestCloseHandler;
+                if (dialogWindow.DataContext is IDialogAware dialogAware){
+                    dialogAware.RequestClose += requestCloseHandler;
+                }
+                // dialogWindow.GetDialogViewModel().RequestClose += requestCloseHandler;
             };
             dialogWindow.Loaded += loadedHandler;
 
             CancelEventHandler closingHandler = null;
             closingHandler = (o, e) =>
             {
-                if (!dialogWindow.GetDialogViewModel().CanCloseDialog())
-                    e.Cancel = true;
+                if (dialogWindow.DataContext is IDialogAware dialogAware && !dialogAware.CanCloseDialog(dialogParameters)) e.Cancel = true;
             };
             dialogWindow.Closing += closingHandler;
 
@@ -141,9 +165,13 @@ namespace Umi.Wbp.Dialogs
             {
                 dialogWindow.Closed -= closedHandler;
                 dialogWindow.Closing -= closingHandler;
-                dialogWindow.GetDialogViewModel().RequestClose -= requestCloseHandler;
+                if (dialogWindow.DataContext is IDialogAware dialogAware){
+                    dialogAware.RequestClose -= requestCloseHandler;
+                    dialogAware.OnDialogClosed();
+                }
+                // dialogWindow.GetDialogViewModel().RequestClose -= requestCloseHandler;
 
-                dialogWindow.GetDialogViewModel().OnDialogClosed();
+                // dialogWindow.GetDialogViewModel().OnDialogClosed();
 
                 if (dialogWindow.Result == null)
                     dialogWindow.Result = new DialogResult();
@@ -156,20 +184,14 @@ namespace Umi.Wbp.Dialogs
             dialogWindow.Closed += closedHandler;
         }
 
-        /// <summary>
-        /// Configure <see cref="IDialogWindow"/> properties.
-        /// </summary>
-        /// <param name="window">The hosting window.</param>
-        /// <param name="dialogContent">The dialog to show.</param>
-        /// <param name="viewModel">The dialog's ViewModel.</param>
-        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
-        {
+
+        protected virtual void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, [CanBeNull] object viewModel){
             var windowStyle = Dialog.GetWindowStyle(dialogContent);
             if (windowStyle != null)
                 window.Style = windowStyle;
 
             window.Content = dialogContent;
-            window.DataContext = viewModel; //we want the host window and the dialog to share the same data context
+            window.DataContext = viewModel;
 
             if (window.Owner == null)
                 window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);

@@ -4,16 +4,19 @@ using Serilog.Events;
 using System;
 using System.Windows;
 using System.Windows.Threading;
+using Autofac;
+using Umi.Wbp.Core;
+using Umi.Wbp.Routers;
 using Volo.Abp;
+using Volo.Abp.Modularity;
 
 namespace Umi.Wbp;
 
-public abstract class WbpApplication : Application
+public abstract class WbpApplication<TModule, TWindow> : Application where TModule : AbpModule where TWindow : Window, IRouterHost
 {
     protected IAbpApplicationWithInternalServiceProvider AbpApplication { get; private set; }
 
-    protected override async void OnStartup(StartupEventArgs e)
-    {
+    protected override async void OnStartup(StartupEventArgs e){
         ShutdownMode = ShutdownMode.OnMainWindowClose;
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
@@ -26,40 +29,45 @@ public abstract class WbpApplication : Application
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .CreateLogger();
 
-        try
-        {
+        try{
             Log.Information("Starting WPF host.");
 
-            AbpApplication = await AbpApplicationFactory.CreateAsync(GetStartModuleType(), options =>
+            var builder = new ContainerBuilder();
+            builder.ComponentRegistryBuilder.Registered += (sender, args) => { args.ComponentRegistration.PipelineBuilding += (sender2, pipeline) => { pipeline.Use(new ViewAndViewModelResolveMiddleware()); }; };
+            AbpApplication = await AbpApplicationFactory.CreateAsync(typeof(TModule), options =>
             {
-                options.UseAutofac();
+                options.Services.AddAutofacServiceProviderFactory(builder);
                 options.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             });
 
+            var options = AbpApplication.Services.ExecutePreConfiguredActions<WbpRouterOptions>();
+
+            AbpApplication.Services.AddSingleton(serviceProvider => serviceProvider.GetService(typeof(TWindow)) as IRouterHost);
+
             await AbpApplication.InitializeAsync();
 
-            DispatcherUnhandledException += ExceptionHandler;
+            DispatcherUnhandledException += OnAbpApplicationError;
 
-            MainWindow = GetMainWindow();
-            MainWindow.Show();
+            if (AbpApplication.Services.GetRequiredService(typeof(TWindow)) is Window mainWindow){
+                MainWindow = mainWindow;
+                MainWindow.Show();
+            }
+            else{
+                throw new UserFriendlyException("Main component must be wpf window control");
+            }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex){
             Log.Fatal(ex, "Host terminated unexpectedly!");
         }
     }
 
-    protected abstract Type GetStartModuleType();
-
-    protected abstract Window GetMainWindow();
-
-    protected virtual void ExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs args)
-    {
-        Log.Error(args.Exception, "Unhandled exception!");
+    protected virtual void OnAbpApplicationError(object sender, DispatcherUnhandledExceptionEventArgs args){
     }
 
-    protected override async void OnExit(ExitEventArgs e)
-    {
+    protected virtual void OnAbpApplicationInitialized(){
+    }
+
+    protected override async void OnExit(ExitEventArgs e){
         await AbpApplication.ShutdownAsync();
         Log.CloseAndFlush();
     }

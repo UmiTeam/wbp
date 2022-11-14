@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Ookii.Dialogs.Wpf;
 
 namespace Umi.Wbp.Dialogs
 {
@@ -11,35 +12,41 @@ namespace Umi.Wbp.Dialogs
         /// <summary>
         /// Shows a non-modal dialog.
         /// </summary>
-        /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement;
+        /// <typeparam name="T">The dialog content type.</typeparam>
+        void Show<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement;
 
         /// <summary>
         /// Shows a non-modal dialog.
         /// </summary>
-        /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
-        void Show<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement;
+        /// <typeparam name="V">The dialog content type.</typeparam>
+        /// <typeparam name="W">The dialog window type.</typeparam>
+        void Show<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow;
 
         /// <summary>
         /// Shows a modal dialog.
         /// </summary>
-        /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback) where T : FrameworkElement;
+        /// <typeparam name="T">The dialog content type.</typeparam>
+        void ShowDialog<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement;
 
         /// <summary>
         /// Shows a modal dialog.
         /// </summary>
-        /// <param name="name">The name of the dialog to show.</param>
         /// <param name="parameters">The parameters to pass to the dialog.</param>
         /// <param name="callback">The action to perform when the dialog is closed.</param>
-        /// <param name="windowName">The name of the hosting window registered with the IContainerRegistry.</param>
-        void ShowDialog<T>(IDialogParameters parameters, Action<IDialogResult> callback, string windowName) where T : FrameworkElement;
+        /// <typeparam name="V">The dialog content type.</typeparam>
+        /// <typeparam name="W">The dialog window type.</typeparam>
+        void ShowDialog<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow;
+
+        void ShowFileDialog(VistaFileDialog vistaFileDialog, Action<IDialogResult> callback = null);
+
+        void ShowFolderBrowserDialog(VistaFolderBrowserDialog dialog, Action<IDialogResult> callback = null);
+
+        void ShowProgressDialog(ProgressDialog dialog, Action<IDialogResult> callback = null);
     }
 }

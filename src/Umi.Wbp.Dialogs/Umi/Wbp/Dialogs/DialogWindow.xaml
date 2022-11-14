@@ -1,10 +1,10 @@
 ﻿<Window x:Class="Umi.Wbp.Dialogs.DialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{Binding Title}"
+        Title="{Binding Title,FallbackValue='Title'}"
         WindowStartupLocation="CenterOwner">
     <Window.Style>
-        <Style TargetType="{x:Type Window}" >
+        <Style TargetType="{x:Type Window}">
             <Setter Property="SizeToContent" Value="WidthAndHeight" />
         </Style>
     </Window.Style>

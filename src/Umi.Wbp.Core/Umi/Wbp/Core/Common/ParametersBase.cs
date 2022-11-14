@@ -12,7 +12,7 @@ namespace Umi.Wbp.Core.Common
     /// </summary>
     public abstract class ParametersBase : IParameters, IEnumerable<KeyValuePair<string, object>>
     {
-        private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
+        protected readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
         /// <summary>
         /// Default constructor.

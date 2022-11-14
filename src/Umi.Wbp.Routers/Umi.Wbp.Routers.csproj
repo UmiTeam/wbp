@@ -2,15 +2,14 @@
 
     <PropertyGroup>
         <TargetFrameworks>net6.0-windows;net5.0-windows</TargetFrameworks>
-        <RootNamespace />
         <UseWpf>true</UseWpf>
         <LangVersion>latest</LangVersion>
-        <PackageId>Umi.Wbp.Core</PackageId>
+        <RootNamespace />
+        <PackageId>Umi.Wbp.Routers</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Volo.Abp.Autofac" Version="6.0.1" />
-      <PackageReference Include="Volo.Abp.Core" Version="6.0.1" />
+      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
     </ItemGroup>
 
 </Project>

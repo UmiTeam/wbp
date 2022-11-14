@@ -1,16 +1,16 @@
-﻿using Umi.Wbp.Dialogs;
+﻿using Umi.Wbp.Core;
+using Umi.Wbp.Dialogs;
 using Umi.Wbp.Events;
-using Umi.Wbp.Regions;
-using Volo.Abp.Autofac;
+using Umi.Wbp.Routers;
 using Volo.Abp.Modularity;
 
 namespace Umi.Wbp;
 
 [DependsOn(
-    typeof(AbpAutofacModule),
     typeof(WbpDialogModule),
-    typeof(WbpRegionModule),
-    typeof(WbpEventModule))]
+    typeof(WbpEventModule),
+    typeof(WbpCoreModule),
+    typeof(WbpRouterModule))]
 public class WbpModule : AbpModule
 {
 }

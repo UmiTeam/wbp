@@ -1,4 +1,5 @@
 ﻿using System;
+using Umi.Wbp.Core;
 
 namespace Umi.Wbp.Dialogs
 {
@@ -10,8 +11,9 @@ namespace Umi.Wbp.Dialogs
         /// <summary>
         /// Determines if the dialog can be closed.
         /// </summary>
+        /// <param name="dialogParameters">The parameters passed to the dialog.</param>
         /// <returns>If <c>true</c> the dialog can be closed. If <c>false</c> the dialog will not close.</returns>
-        bool CanCloseDialog();
+        bool CanCloseDialog(IDialogParameters dialogParameters);
 
         /// <summary>
         /// Called when the dialog is closed.

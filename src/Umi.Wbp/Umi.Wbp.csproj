@@ -9,14 +9,9 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Umi.Wbp.Commands\Umi.Wbp.Commands.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Converters\Umi.Wbp.Converters.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Dialogs\Umi.Wbp.Dialogs.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Events\Umi.Wbp.Events.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Regions\Umi.Wbp.Regions.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.Autofac" Version="5.3.4" />
+        <ProjectReference Include="..\Umi.Wbp.Routers\Umi.Wbp.Routers.csproj" />
     </ItemGroup>
 
     <ItemGroup>

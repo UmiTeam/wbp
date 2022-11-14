@@ -1,9 +1,0 @@
-﻿<wbp:WbpApplication x:Class="Umi.Wbp.Test.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:wbp="clr-namespace:Umi.Wbp;assembly=Umi.Wbp"
-             xmlns:local="clr-namespace:Umi.Wbp.Test">
-    <Application.Resources>
-
-    </Application.Resources>
-</wbp:WbpApplication>

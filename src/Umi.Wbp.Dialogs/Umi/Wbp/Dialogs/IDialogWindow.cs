@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Dialogs
 {
     /// <summary>
     /// Interface for a dialog hosting window.
     /// </summary>
-    public interface IDialogWindow
+    public interface IDialogWindow : ITransientDependency
     {
         /// <summary>
         /// Dialog content.
