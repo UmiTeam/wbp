@@ -4,6 +4,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net6.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
+        <RootNamespace/>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +14,13 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
       <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Localization\Demo\en.json" />
+      <EmbeddedResource Include="Localization\Demo\en.json" />
+      <None Remove="Localization\Demo\zh-Hans.json" />
+      <EmbeddedResource Include="Localization\Demo\zh-Hans.json" />
     </ItemGroup>
 
 </Project>

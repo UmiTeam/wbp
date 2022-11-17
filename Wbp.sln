@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Routers", "src\Umi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Demo", "test\Umi.Wbp.Demo\Umi.Wbp.Demo.csproj", "{BC0047DE-CDE0-4636-BE3B-4EAFC535887A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Localization", "src\Umi.Wbp.Localization\Umi.Wbp.Localization.csproj", "{85A2EC95-03BF-4612-BCEB-41F39388D88E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,7 @@ Global
 		{F698B8D3-3034-46AC-A42A-13A1B4504E9B} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{DF80BA0D-041D-480C-B74F-7E941F37D667} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{BC0047DE-CDE0-4636-BE3B-4EAFC535887A} = {43319172-2FCA-4872-8EE9-3C54204D4DB7}
+		{85A2EC95-03BF-4612-BCEB-41F39388D88E} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D384C36-7FDC-4072-B4D9-7BBEE4890B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -61,5 +64,9 @@ Global
 		{BC0047DE-CDE0-4636-BE3B-4EAFC535887A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0047DE-CDE0-4636-BE3B-4EAFC535887A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC0047DE-CDE0-4636-BE3B-4EAFC535887A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

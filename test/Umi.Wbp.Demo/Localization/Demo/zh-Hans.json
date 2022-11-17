@@ -1,0 +1,22 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "Menu:Home": "首页",
+    "Welcome": "欢迎",
+    "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io.",
+    "CreateDatasetSuccess": "创建数据集成功!",
+    "ExportDatasetSuccess": "导出数据集成功!",
+    "ImportDatasetSuccess": "导入数据集成功!",
+    "ConfigText": "配置",
+    "VersionText": "版本",
+    "StatusText": "状态",
+    "ReleaseDateText": "发布日期",
+    "CreateText": "创建",
+    "CancelText": "取消",
+    "CreateDatasetText": "创建数据集",
+    "OpenDatasetText": "打开数据集",
+    "ExportDatasetText": "导出数据集",
+    "ImportDatasetText": "导入数据集",
+    "FileMenuText": "文件"
+  }
+}

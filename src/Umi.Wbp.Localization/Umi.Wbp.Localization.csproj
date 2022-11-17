@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net6.0-windows;net5.0-windows</TargetFrameworks>
+        <RootNamespace />
+        <UseWpf>true</UseWpf>
+        <LangVersion>latest</LangVersion>
+        <PackageId>Umi.Wbp.Localization</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Volo.Abp.Localization" Version="6.0.1" />
+      <PackageReference Include="WPFLocalizeExtension" Version="3.9.4" />
+    </ItemGroup>
+
+</Project>

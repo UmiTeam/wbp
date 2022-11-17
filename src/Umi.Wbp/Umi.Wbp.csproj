@@ -11,6 +11,7 @@
         <ProjectReference Include="..\Umi.Wbp.Commands\Umi.Wbp.Commands.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Dialogs\Umi.Wbp.Dialogs.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Events\Umi.Wbp.Events.csproj" />
+        <ProjectReference Include="..\Umi.Wbp.Localization\Umi.Wbp.Localization.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Routers\Umi.Wbp.Routers.csproj" />
     </ItemGroup>
 
