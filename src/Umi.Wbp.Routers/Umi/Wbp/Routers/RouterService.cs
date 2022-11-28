@@ -22,32 +22,24 @@ public class RouterService : IRouterService, ISingletonDependency
         this.serviceProvider = serviceProvider;
     }
 
-    public void Push(string url, bool updateByParameters = true){
-        Push(url, new NavigationParameters(), null);
+    public void Push(string url, bool forceUpdate = false){
+        Push(url, new NavigationParameters(), null, forceUpdate);
     }
 
-    public void Push(string url, NavigationParameters navigationParameters, bool updateByParameters = true){
-        Push(url, navigationParameters, null);
+    public void Push(string url, NavigationParameters navigationParameters, bool forceUpdate = false){
+        Push(url, navigationParameters, null, forceUpdate);
     }
 
-    public void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool updateByParameters = true){
+    public void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool forceUpdate = false){
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
         Uri targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
         NavigationContext navigationContext = new(navigationParameters, targetUri);
         wbpRouterOptions.Value.RaiseNavigating(this, navigationContext);
         if (Navigate(null, url, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext, out var needNavigateRouterViews)){
             foreach (var (routerView, targetView) in needNavigateRouterViews){
-                if (updateByParameters){
-                    if (routerView.Content == targetView && navigationContext.Parameters == CurrentEntry?.Parameters){
-                        continue;
-                    }
+                if (routerView.Content == targetView && !forceUpdate){
+                    continue;
                 }
-                else{
-                    if (routerView.Content == targetView){
-                        continue;
-                    }
-                }
-
 
                 MvvmHelper.CallViewAndViewModelAction<INavigationAware>(routerView.Content,
                     action => action.OnNavigatedFrom(navigationContext));
@@ -114,7 +106,7 @@ public class RouterService : IRouterService, ISingletonDependency
         CurrentEntry = entry;
     }
 
-    private bool Navigate(string parentUrl, string url, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext, out ICollection<(RouterView, object)> needNavigateRouterViews){
+    private bool Navigate(string parentUrl, string url, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext, out ICollection<(RouterView, object)> needNavigateRouterViews, bool forceUpdate = false){
         needNavigateRouterViews = new List<(RouterView, object)>();
         Uri targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
         foreach (var route in routes){

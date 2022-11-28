@@ -1,5 +1,8 @@
-﻿namespace Umi.Wbp.Routers;
+﻿using System;
 
+namespace Umi.Wbp.Routers;
+
+[Obsolete($"Use {nameof(NavigationAwareAbstract)} class instead")]
 public abstract class RoutableViewModel : INavigationAware
 {
     public virtual bool OnNavigatingTo(NavigationContext navigationContext) => true;

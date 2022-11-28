@@ -4,9 +4,9 @@ namespace Umi.Wbp.Routers;
 
 public interface IRouterService
 {
-    void Push(string url, bool updateByParameters = true);
-    void Push(string url, NavigationParameters navigationParameters, bool updateByParameters = true);
-    void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool updateByParameters = true);
+    void Push(string url, bool forceUpdate = false);
+    void Push(string url, NavigationParameters navigationParameters, bool forceUpdate = false);
+    void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool forceUpdate = false);
 
     bool CanGoBack { get; }
     bool CanGoForward { get; }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Routers;
 using Umi.Wbp.Demo.Dialogs;
 using Umi.Wbp.Demo.Localization;
 using Umi.Wbp.Demo.Routers;
@@ -29,27 +30,27 @@ public class DemoModule : AbpModule
         new()
         {
             Path = "/router",
-            Component = typeof(RouterDemo)
+            Component = typeof(RouterDemo),
+            Children = new List<Route>
+            {
+                new()
+                {
+                    Path = "/test",
+                    Component = typeof(TestRouterView)
+                }
+            }
         }
     };
 
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
+    public override void PreConfigureServices(ServiceConfigurationContext context){
         PreConfigure<WbpRouterOptions>(options => { options.Routes = routes; });
     }
 
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
+    public override void ConfigureServices(ServiceConfigurationContext context){
         Configure<WbpRouterOptions>(options => { options.Routes = routes; });
-        Configure<WbpLocalizationOptions>(options =>
-        {
-            options.LocalizationResource = typeof(DemoResource);
-        });
-        
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<DemoModule>();
-        });
+        Configure<WbpLocalizationOptions>(options => { options.LocalizationResource = typeof(DemoResource); });
+
+        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<DemoModule>(); });
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -60,15 +61,11 @@ public class DemoModule : AbpModule
             options.DefaultResourceType = typeof(DemoResource);
         });
 
-        Configure<AbpExceptionLocalizationOptions>(options =>
-        {
-            options.MapCodeNamespace("Demo", typeof(DemoResource));
-        });
+        Configure<AbpExceptionLocalizationOptions>(options => { options.MapCodeNamespace("Demo", typeof(DemoResource)); });
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Languages.Add(new LanguageInfo("en", "en", "English"));
             options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
         });
-
     }
 }

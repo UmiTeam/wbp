@@ -2,6 +2,7 @@
 
 namespace Umi.Wbp.Dialogs;
 
+[Obsolete($"Use {nameof(DialogAwareAbstract)} class instead")]
 public abstract class DialogViewModel : IDialogAware
 {
     public virtual bool CanCloseDialog(IDialogParameters dialogParameters) => true;
