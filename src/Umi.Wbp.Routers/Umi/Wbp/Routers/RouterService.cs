@@ -16,30 +16,38 @@ public class RouterService : IRouterService, ISingletonDependency
 
     private readonly IOptions<WbpRouterOptions> wbpRouterOptions;
     private readonly IServiceProvider serviceProvider;
-    
+
     public RouterService(IOptions<WbpRouterOptions> wbpRouterOptions, IServiceProvider serviceProvider){
         this.wbpRouterOptions = wbpRouterOptions;
         this.serviceProvider = serviceProvider;
     }
 
-    public void Push(string url){
+    public void Push(string url, bool updateByParameters = true){
         Push(url, new NavigationParameters(), null);
     }
 
-    public void Push(string url, NavigationParameters navigationParameters){
+    public void Push(string url, NavigationParameters navigationParameters, bool updateByParameters = true){
         Push(url, navigationParameters, null);
     }
 
-    public void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback){
+    public void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool updateByParameters = true){
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
         Uri targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
         NavigationContext navigationContext = new(navigationParameters, targetUri);
         wbpRouterOptions.Value.RaiseNavigating(this, navigationContext);
         if (Navigate(null, url, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext, out var needNavigateRouterViews)){
             foreach (var (routerView, targetView) in needNavigateRouterViews){
-                if (routerView.Content == targetView && navigationContext.Parameters == CurrentEntry?.Parameters){
-                    continue;
+                if (updateByParameters){
+                    if (routerView.Content == targetView && navigationContext.Parameters == CurrentEntry?.Parameters){
+                        continue;
+                    }
                 }
+                else{
+                    if (routerView.Content == targetView){
+                        continue;
+                    }
+                }
+
 
                 MvvmHelper.CallViewAndViewModelAction<INavigationAware>(routerView.Content,
                     action => action.OnNavigatedFrom(navigationContext));
