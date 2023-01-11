@@ -10,62 +10,12 @@ namespace Umi.Wbp.Core.Common
     /// <summary>
     /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
     /// </summary>
-    public abstract class ParametersBase : IParameters, IEnumerable<KeyValuePair<string, object>>
+    public class Parameters : IParameters, IEnumerable<KeyValuePair<string, object>>
     {
-        protected readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
+        private readonly List<KeyValuePair<string, object>> _entries = new List<KeyValuePair<string, object>>();
 
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        protected ParametersBase()
+        public Parameters()
         {
-        }
-
-        /// <summary>
-        /// Constructs a list of parameters.
-        /// </summary>
-        /// <param name="query">Query string to be parsed.</param>
-        protected ParametersBase(string query)
-        {
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                int num = query.Length;
-                for (int i = ((query.Length > 0) && (query[0] == '?')) ? 1 : 0; i < num; i++)
-                {
-                    int startIndex = i;
-                    int num4 = -1;
-                    while (i < num)
-                    {
-                        char ch = query[i];
-                        if (ch == '=')
-                        {
-                            if (num4 < 0)
-                            {
-                                num4 = i;
-                            }
-                        }
-                        else if (ch == '&')
-                        {
-                            break;
-                        }
-                        i++;
-                    }
-                    string key = null;
-                    string value;
-                    if (num4 >= 0)
-                    {
-                        key = query.Substring(startIndex, num4 - startIndex);
-                        value = query.Substring(num4 + 1, (i - num4) - 1);
-                    }
-                    else
-                    {
-                        value = query.Substring(startIndex, i - startIndex);
-                    }
-
-                    if (key != null)
-                        Add(Uri.UnescapeDataString(key), Uri.UnescapeDataString(value));
-                }
-            }
         }
 
         /// <summary>
@@ -194,5 +144,28 @@ namespace Umi.Wbp.Core.Common
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void FromParameters(IEnumerable<KeyValuePair<string, object>> parameters) =>
             _entries.AddRange(parameters);
+        
+        protected bool Equals(Parameters other){
+            return _entries.All(other.Contains);
+        }
+
+        public override bool Equals(object obj){
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Parameters)obj);
+        }
+
+        public override int GetHashCode(){
+            return _entries?.GetHashCode() ?? 0;
+        }
+
+        public static bool operator ==(Parameters left, Parameters right){
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Parameters left, Parameters right){
+            return !Equals(left, right);
+        }
     }
 }

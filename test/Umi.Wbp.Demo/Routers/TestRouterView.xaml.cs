@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using PropertyChanged;
 using Umi.Wbp.Mvvm;
@@ -14,20 +15,11 @@ public partial class TestRouterView : UserControl, IViewModelForSelf, INavigatio
     }
 
     public string HelloWorldString { get; set; }
-    public bool OnNavigatingTo(NavigationContext navigationContext){
-        return true;
-    }
 
     public void OnNavigatedTo(NavigationContext navigationContext){
         if (navigationContext.Parameters.TryGetValue("Identifier", out Guid identifier)){
             HelloWorldString = identifier.ToString();
         }
-    }
-
-    public bool OnNavigatingFrom(NavigationContext navigationContext){
-        return true;
-    }
-
-    public void OnNavigatedFrom(NavigationContext navigationContext){
+        MessageBox.Show("Navigated to body");
     }
 }

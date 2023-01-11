@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Umi.Wbp.Core.Common;
 
 namespace Umi.Wbp.Routers;
 
 public interface INavigationJournalEntry
 {
     string Path { get; }
-    NavigationParameters Parameters { get; }
+    IParameters Parameters { get; }
 }

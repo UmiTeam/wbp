@@ -15,4 +15,5 @@ namespace Umi.Wbp;
     typeof(WbpLocalizationModule))]
 public class WbpModule : AbpModule
 {
+    
 }

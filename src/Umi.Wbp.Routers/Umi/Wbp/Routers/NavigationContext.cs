@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Umi.Wbp.Core.Common;
 
 namespace Umi.Wbp.Routers;
 
 public class NavigationContext
 {
-    public NavigationContext(NavigationParameters parameters, Uri uri){
+    public NavigationContext(IParameters parameters, string from, string to){
         Parameters = parameters;
-        Uri = uri;
+        From = from;
+        To = to;
     }
 
-    public NavigationParameters Parameters { get; }
-    public Uri Uri { get; }
-    public Type From { get; set; }
-    public Type To { get; set; }
+    public IParameters Parameters { get; }
+    public string From { get; }
+    public string To { get; }
 }

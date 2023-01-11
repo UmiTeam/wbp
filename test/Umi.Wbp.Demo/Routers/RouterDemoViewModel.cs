@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using PropertyChanged;
 using Umi.Wbp.Commands;
+using Umi.Wbp.Core.Common;
 using Umi.Wbp.Mvvm;
 using Umi.Wbp.Routers;
 
@@ -16,7 +17,8 @@ public class RouterDemoViewModel : NavigationAwareAbstract, IViewModelFor<Router
 
     public RouterDemoViewModel(IRouterService routerService){
         this.routerService = routerService;
-        NavigateCommand = new RelayCommand(() => { routerService.Push("/router/test", new NavigationParameters() { { "Identifier", Guid.NewGuid() } }); });
+        NavigateCommand = new RelayCommand(() => { routerService.Push("/router/test", new Parameters() { { "Identifier", Guid.NewGuid() } }); });
+        NavigateBackCommand = new RelayCommand(() => { routerService.Push("/home"); });
     }
 
     RouterDemo IViewModelFor<RouterDemo>.View
@@ -26,12 +28,9 @@ public class RouterDemoViewModel : NavigationAwareAbstract, IViewModelFor<Router
     }
 
     public ICommand NavigateCommand { get; set; }
+    public ICommand NavigateBackCommand { get; set; }
 
     public override void OnNavigatedTo(NavigationContext navigationContext){
         MessageBox.Show("Navigated to router demo view model");
-    }
-
-    public override void OnNavigatedFrom(NavigationContext navigationContext){
-        MessageBox.Show("Navigated from router demo view model");
     }
 }

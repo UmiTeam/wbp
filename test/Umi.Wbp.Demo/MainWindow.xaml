@@ -13,7 +13,11 @@
             <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
-    <Grid>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Back" Command="{Binding BackCommand}"></Button>
+            <Button Content="Forward" Command="{Binding ForwardCommand}"></Button>
+        </StackPanel>
         <router:RouterView x:Name="RouterView"></router:RouterView>
-    </Grid>
+    </StackPanel>
 </Window>

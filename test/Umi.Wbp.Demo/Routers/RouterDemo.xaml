@@ -10,6 +10,10 @@
     <StackPanel>
         <TextBlock Text="This is router demo"></TextBlock>
         <Button Content="Navigate" Command="{Binding NavigateCommand}"></Button>
-        <router:RouterView></router:RouterView>
+        <StackPanel>
+            <router:RouterView RouterName="Header"></router:RouterView>
+            <router:RouterView RouterName="Body"></router:RouterView>
+            <router:RouterView RouterName="Footer"></router:RouterView>
+        </StackPanel>
     </StackPanel>
 </UserControl>

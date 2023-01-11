@@ -1,15 +1,16 @@
 ﻿using System;
+using Umi.Wbp.Core.Common;
 
 namespace Umi.Wbp.Dialogs;
 
 public abstract class DialogAwareAbstract : IDialogAware
 {
-    public virtual bool CanCloseDialog(IDialogParameters dialogParameters) => true;
+    public virtual bool CanCloseDialog(IParameters dialogParameters) => true;
 
     public virtual void OnDialogClosed(){
     }
 
-    public virtual void OnDialogOpened(IDialogParameters parameters){
+    public virtual void OnDialogOpened(IParameters parameters){
     }
 
     public string Title => nameof(Title);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Umi.Wbp.Core.Common;
 using Umi.Wbp.Mvvm;
 using Volo.Abp.DependencyInjection;
 
@@ -22,47 +23,39 @@ public class RouterService : IRouterService, ISingletonDependency
         this.serviceProvider = serviceProvider;
     }
 
-    public void Push(string url, bool forceUpdate = false){
-        Push(url, new NavigationParameters(), null, forceUpdate);
+    public void Push(string url){
+        Push(url, new Parameters());
     }
 
-    public void Push(string url, NavigationParameters navigationParameters, bool forceUpdate = false){
-        Push(url, navigationParameters, null, forceUpdate);
-    }
-
-    public void Push(string url, NavigationParameters navigationParameters, Action<NavigationResult> navigationCallback, bool forceUpdate = false){
+    public void Push(string url, IParameters navigationParameters){
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
-        Uri targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
-        NavigationContext navigationContext = new(navigationParameters, targetUri);
-        wbpRouterOptions.Value.RaiseNavigating(this, navigationContext);
-        if (Navigate(null, url, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext, out var needNavigateRouterViews)){
-            foreach (var (routerView, targetView) in needNavigateRouterViews){
-                if (routerView.Content == targetView && !forceUpdate){
+
+        NavigationContext navigationContext = new(navigationParameters, CurrentEntry?.Path, url);
+
+        wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, newUrl =>
+        {
+            navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
+            foreach (var (routerView, targetView) in GetNavigateRouters(null, newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext)){
+                if (routerView.Content == targetView && navigationParameters == CurrentEntry?.Parameters){
                     continue;
                 }
 
-                MvvmHelper.CallViewAndViewModelAction<INavigationAware>(routerView.Content,
-                    action => action.OnNavigatedFrom(navigationContext));
-
                 routerView.Content = targetView;
 
-                MvvmHelper.CallViewAndViewModelAction<INavigationAware>(targetView,
-                    action => action.OnNavigatedTo(navigationContext));
+                if (targetView is INavigationAware navigationAware){
+                    navigationAware.OnNavigatedTo(navigationContext);
+                }
+
+                if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
+                    viewModelNavigationAware.OnNavigatedTo(navigationContext);
+                }
             }
 
-            wbpRouterOptions.Value.RaiseNavigated(this, navigationContext);
-
-            NavigationJournalEntry navigationJournalEntry = new NavigationJournalEntry(url, navigationParameters);
+            var navigationJournalEntry = new NavigationJournalEntry(url, navigationParameters);
             RecordNavigation(navigationJournalEntry);
 
-            NavigationResult navigationResult = new(navigationContext, true);
-            navigationCallback?.Invoke(navigationResult);
-        }
-        else{
-            NavigationResult navigationResult = new(navigationContext, false);
-            navigationCallback?.Invoke(navigationResult);
-            wbpRouterOptions.Value.RaiseNavigationFailed(this, navigationContext, navigationResult.Error);
-        }
+            wbpRouterOptions.Value.AfterEach?.Invoke(navigationContext);
+        });
     }
 
     public bool CanGoBack => backStack.Count > 0;
@@ -71,34 +64,22 @@ public class RouterService : IRouterService, ISingletonDependency
     public INavigationJournalEntry CurrentEntry { get; private set; }
 
     public bool GoBack(){
-        bool result = true;
         if (!CanGoBack) return false;
         var journalEntry = backStack.Peek();
         var previousCurrentEntry = CurrentEntry;
-        Push(journalEntry.Path, journalEntry.Parameters, navigationResult =>
-        {
-            if (navigationResult.Result == true){
-                forwardStack.Push(previousCurrentEntry);
-                backStack.Pop();
-                backStack.Pop();
-            }
-            else result = false;
-        });
-        return result;
+        Push(journalEntry.Path, journalEntry.Parameters);
+        forwardStack.Push(previousCurrentEntry);
+        backStack.Pop();
+        backStack.Pop();
+        return true;
     }
 
     public bool GoForward(){
-        bool result = true;
         if (!CanGoForward) return false;
         var journalEntry = forwardStack.Peek();
-        Push(journalEntry.Path, journalEntry.Parameters, navigationResult =>
-        {
-            if (navigationResult.Result == true){
-                forwardStack.Pop();
-            }
-            else result = false;
-        });
-        return result;
+        Push(journalEntry.Path, journalEntry.Parameters);
+        forwardStack.Pop();
+        return true;
     }
 
     private void RecordNavigation(INavigationJournalEntry entry){
@@ -106,81 +87,48 @@ public class RouterService : IRouterService, ISingletonDependency
         CurrentEntry = entry;
     }
 
-    private bool Navigate(string parentUrl, string url, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext, out ICollection<(RouterView, object)> needNavigateRouterViews, bool forceUpdate = false){
-        needNavigateRouterViews = new List<(RouterView, object)>();
-        Uri targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
+
+    ICollection<(RouterView, object)> GetNavigateRouters(string parentUrl, string url, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext){
+        var needNavigateRouterViews = new List<(RouterView, object)>();
+        var targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
         foreach (var route in routes){
             Uri routeUri = new($"{wbpRouterOptions.Value.BasePath}{parentUrl}{route.Path}/");
             // Query satisfied route
-            if (routeUri.IsBaseOf(targetUri)){
-                foreach (var routerView in routerViews){
-                    bool hasRoute = false;
-                    foreach (var (routerViewName, viewType) in route.GetComponents()){
-                        if (routerView.RouterName == routerViewName){
-                            hasRoute = true;
+            if (!routeUri.IsBaseOf(targetUri)) continue;
+            foreach (var routerView in routerViews){
+                var hasRoute = false;
+                foreach (var (routerViewName, viewType) in route.GetComponents()){
+                    if (routerView.RouterName != routerViewName) continue;
+                    hasRoute = true;
 
-                            if (routerView.Content?.GetType() != viewType || navigationContext.Parameters != CurrentEntry?.Parameters){
-                                if (!MvvmHelper.CallViewAndViewModelAction<INavigationAware>(routerView.Content, x => x.OnNavigatingFrom(navigationContext))){
-                                    return false;
-                                }
-                            }
+                    var targetView = routerView.Content?.GetType() == viewType ? routerView.Content : serviceProvider.GetService(viewType);
 
-                            object targetView;
-                            if (routerView.Content?.GetType() == viewType){
-                                targetView = routerView.Content;
-                            }
-                            else{
-                                targetView = serviceProvider.GetService(viewType);
-                            }
+                    needNavigateRouterViews.Add((routerView, targetView));
 
-                            if (routerView.Content != targetView || navigationContext.Parameters != CurrentEntry?.Parameters){
-                                if (!MvvmHelper.CallViewAndViewModelAction<INavigationAware>(targetView, x => x.OnNavigatingTo(navigationContext))){
-                                    return false;
-                                }
-                            }
-
-                            needNavigateRouterViews.Add((routerView, targetView));
-
-                            // Get child router
-                            var childRouter = GetChildRouter(targetView);
-                            if (!targetUri.IsBaseOf(routeUri) && route.Children.Count > 0){
-                                // Navigate child router
-                                if (childRouter.Any()){
-                                    Navigate(parentUrl + route.Path, url, route.Children, childRouter, navigationContext, out var needNavigateRouterViews2);
-                                    foreach (var needNavigateRouterView in needNavigateRouterViews2){
-                                        needNavigateRouterViews.Add(needNavigateRouterView);
-                                    }
-                                }
-                            }
-                            else{
-                                foreach (var childRouterView in childRouter){
-                                    if (!MvvmHelper.CallViewAndViewModelAction<INavigationAware>(childRouterView.Content, x => x.OnNavigatingFrom(navigationContext))){
-                                        return false;
-                                    }
-
-                                    needNavigateRouterViews.Add((childRouterView, null));
-                                }
-                            }
-
-                            break;
+                    // Get child router
+                    var childRouter = GetChildRouter(targetView);
+                    if (!targetUri.IsBaseOf(routeUri) && route.Children.Count > 0){
+                        // Navigate child router
+                        if (childRouter.Any()){
+                            needNavigateRouterViews.AddRange(GetNavigateRouters(parentUrl + route.Path, url, route.Children, childRouter, navigationContext));
                         }
                     }
-
-                    if (!hasRoute){
-                        //No route router
-                        if (!MvvmHelper.CallViewAndViewModelAction<INavigationAware>(routerView.Content, x => x.OnNavigatingFrom(navigationContext))){
-                            return false;
-                        }
-
-                        needNavigateRouterViews.Add((routerView, null));
+                    else{
+                        needNavigateRouterViews.AddRange(childRouter.Select(childRouterView => ((RouterView, object))(childRouterView, null)));
                     }
+
+                    break;
+                }
+
+                if (!hasRoute){
+                    //No route router
+                    needNavigateRouterViews.Add((routerView, null));
                 }
             }
         }
 
-        return true;
+        return needNavigateRouterViews;
     }
-
 
     private IEnumerable<RouterView> GetChildRouter(object control){
         List<RouterView> routerControls = new();

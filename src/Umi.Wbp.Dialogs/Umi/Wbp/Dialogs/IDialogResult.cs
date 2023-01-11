@@ -1,4 +1,6 @@
-﻿namespace Umi.Wbp.Dialogs
+﻿using Umi.Wbp.Core.Common;
+
+namespace Umi.Wbp.Dialogs
 {
     /// <summary>
     /// Contains <see cref="IDialogParameters"/> from the dialog
@@ -9,7 +11,7 @@
         /// <summary>
         /// The parameters from the dialog.
         /// </summary>
-        IDialogParameters Parameters { get; }
+        IParameters Parameters { get; }
 
         /// <summary>
         /// The result of the dialog.

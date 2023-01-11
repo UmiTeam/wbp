@@ -18,9 +18,14 @@ namespace Umi.Wbp.Demo
             this.routerService = routerService;
             InitializeComponent();
             LoadedCommand = new RelayCommand(() => { routerService.Push("/home"); });
+            BackCommand = new RelayCommand((() => { routerService.GoBack(); }));
+            ForwardCommand = new RelayCommand((() => { routerService.GoForward(); }));
         }
 
         public ICollection<RouterView> RouterViews => new List<RouterView> { RouterView };
         public ICommand LoadedCommand { get; set; }
+
+        public ICommand BackCommand { get; set; }
+        public ICommand ForwardCommand { get; set; }
     }
 }

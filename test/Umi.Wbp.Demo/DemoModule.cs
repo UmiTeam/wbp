@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using Routers;
 using Umi.Wbp.Demo.Dialogs;
 using Umi.Wbp.Demo.Localization;
@@ -36,7 +38,12 @@ public class DemoModule : AbpModule
                 new()
                 {
                     Path = "/test",
-                    Component = typeof(TestRouterView)
+                    Components = new Dictionary<string, Type>()
+                    {
+                        { "Header", typeof(RouterDemoHeader) },
+                        { "Body", typeof(TestRouterView) },
+                        { "Footer", typeof(RouterDemoFooter) }
+                    }
                 }
             }
         }
@@ -47,7 +54,15 @@ public class DemoModule : AbpModule
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context){
-        Configure<WbpRouterOptions>(options => { options.Routes = routes; });
+        Configure<WbpRouterOptions>(options =>
+        {
+            options.Routes = routes;
+            options.BeforeEach = (context, next) =>
+            {
+                MessageBox.Show($"From:[{context.From}]-To:[{context.To}]");
+                next(context.To);
+            };
+        });
         Configure<WbpLocalizationOptions>(options => { options.LocalizationResource = typeof(DemoResource); });
 
         Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<DemoModule>(); });

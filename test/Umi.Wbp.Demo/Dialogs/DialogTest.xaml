@@ -8,7 +8,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
         <TextBlock Text="{Binding Title}"></TextBlock>
-        <Button Content="Back" Command="{Binding BackCommand}"></Button>
         <Button Content="Change Title" Command="{Binding ChangeTitleCommand}"></Button>
         <Button Content="Show Open File Dialog" Command="{Binding ShowOpenFileDialogCommand}"></Button>
     </StackPanel>

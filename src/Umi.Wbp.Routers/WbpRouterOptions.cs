@@ -6,22 +6,9 @@ namespace Umi.Wbp.Routers;
 public class WbpRouterOptions
 {
     public ICollection<Route> Routes { get; set; }
-    public event EventHandler<NavigationEventArgs> Navigating;
-    public event EventHandler<NavigationEventArgs> Navigated;
-    public event EventHandler<NavigationFailedEventArgs> NavigationFailed;
 
-    internal void RaiseNavigating(object sender, NavigationContext navigationContext){
-        Navigating?.Invoke(sender, new NavigationEventArgs(navigationContext));
-    }
-
-    internal void RaiseNavigated(object sender, NavigationContext navigationContext){
-        Navigated?.Invoke(sender, new NavigationEventArgs(navigationContext));
-    }
-
-    internal void RaiseNavigationFailed(object sender, NavigationContext navigationContext, Exception error){
-        NavigationFailed?.Invoke(sender, new NavigationFailedEventArgs(navigationContext, error));
-    }
-
+    public Action<NavigationContext, Action<string>> BeforeEach { get; set; } = (context, next) => { next?.Invoke(context.To); };
+    public Action<NavigationContext> AfterEach { get; set; }
     internal string BasePath { get; init; } = "http://localhost";
 }
 

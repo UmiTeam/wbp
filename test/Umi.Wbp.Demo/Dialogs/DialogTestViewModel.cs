@@ -23,13 +23,11 @@ public class DialogTestViewModel : IViewModelFor<DialogTest>
         this.routerService = routerService;
         this.dialogService = dialogService;
         this.stringLocalizer = stringLocalizer;
-        BackCommand = new RelayCommand(() => { routerService.GoBack(); });
         ShowOpenFileDialogCommand = new RelayCommand(() => { dialogService.ShowOpenFileDialog("All Files|*.*", result => { MessageBox.Show(result.Result == ButtonResult.Yes ? $"You have selected file in: {result.GetSelectedFilePath()}" : "You do not select a file"); }); });
         ChangeTitleCommand = new RelayCommand(() => { Title += $"[Modified][{Random.Shared.Next(100)}]"; });
     }
 
     public string Title { get; set; } = "This is dialog demo";
-    public ICommand BackCommand { get; set; }
     public ICommand ShowOpenFileDialogCommand { get; set; }
     public ICommand ChangeTitleCommand { get; set; }
 

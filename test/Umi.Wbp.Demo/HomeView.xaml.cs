@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Umi.Wbp.Commands;
 using Umi.Wbp.Localization;
@@ -7,7 +8,7 @@ using Umi.Wbp.Routers;
 
 namespace Umi.Wbp.Demo;
 
-public partial class HomeView : UserControl, IViewModelForSelf
+public partial class HomeView : UserControl, IViewModelForSelf,INavigationAware
 {
     private readonly IRouterService routerService;
     private readonly ILocalizationService localizationService;
@@ -24,4 +25,8 @@ public partial class HomeView : UserControl, IViewModelForSelf
     public ICommand ShowDialogDemoCommand { get; set; }
     public ICommand ShowRouterDemoCommand { get; set; }
     public ICommand ChangeCultureCommand { get; set; }
+
+    public void OnNavigatedTo(NavigationContext navigationContext){
+        MessageBox.Show("Navigated to home");
+    }
 }

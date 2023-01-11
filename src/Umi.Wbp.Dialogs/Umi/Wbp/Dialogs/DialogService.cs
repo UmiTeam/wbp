@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
 using Ookii.Dialogs.Wpf;
+using Umi.Wbp.Core.Common;
 using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Dialogs
@@ -21,24 +22,24 @@ namespace Umi.Wbp.Dialogs
             this.serviceProvider = serviceProvider;
         }
 
-        public void Show<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
+        public void Show<T>(IParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
             ShowDialogInternal(typeof(T), parameters, callback, false);
         }
 
-        public void Show<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
+        public void Show<V, W>(IParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
             ShowDialogInternal(typeof(V), parameters, callback, false, typeof(W).Name);
         }
 
-        public void ShowDialog<T>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
+        public void ShowDialog<T>(IParameters parameters = null, Action<IDialogResult> callback = null) where T : FrameworkElement{
             ShowDialogInternal(typeof(T), parameters, callback, true);
         }
 
-        public void ShowDialog<V, W>(IDialogParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
+        public void ShowDialog<V, W>(IParameters parameters = null, Action<IDialogResult> callback = null) where V : FrameworkElement where W : IDialogWindow{
             ShowDialogInternal(typeof(V), parameters, callback, true, typeof(W).Name);
         }
 
         public void ShowFileDialog(VistaFileDialog vistaFileDialog, Action<IDialogResult> callback = null){
-            DialogParameters dialogParameters = new();
+            Parameters dialogParameters = new();
             DialogResult dialogResult;
             if (vistaFileDialog.ShowDialog() ?? false){
                 dialogParameters.Add(DialogResultExtensions.FilePathsKey, vistaFileDialog.FileNames);
@@ -52,7 +53,7 @@ namespace Umi.Wbp.Dialogs
         }
 
         public void ShowFolderBrowserDialog(VistaFolderBrowserDialog dialog, Action<IDialogResult> callback = null){
-            DialogParameters dialogParameters = new();
+            Parameters dialogParameters = new();
             DialogResult dialogResult;
             if (dialog.ShowDialog() ?? false){
                 dialogParameters.Add(DialogResultExtensions.FolderPathsKey, dialog.SelectedPaths);
@@ -69,7 +70,7 @@ namespace Umi.Wbp.Dialogs
             dialog.RunWorkerCompleted += (sender, args) =>
             {
                 DialogResult dialogResult;
-                DialogParameters dialogParameters = new();
+                Parameters dialogParameters = new();
                 if (args.Cancelled || args.Error != null){
                     dialogParameters.Add(DialogResultExtensions.ProgressErrorKey, args.Error);
                     if (args.Cancelled){
@@ -89,8 +90,8 @@ namespace Umi.Wbp.Dialogs
             dialog.ShowDialog();
         }
 
-        void ShowDialogInternal(Type contentType, IDialogParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){
-            if (parameters == null) parameters = new DialogParameters();
+        void ShowDialogInternal(Type contentType, IParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){
+            if (parameters == null) parameters = new Parameters();
 
             IDialogWindow dialogWindow = CreateDialogWindow(windowName);
             ConfigureDialogWindowEvents(dialogWindow, callback, parameters);
@@ -118,7 +119,7 @@ namespace Umi.Wbp.Dialogs
         }
 
 
-        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IDialogParameters parameters){
+        protected virtual void ConfigureDialogWindowContent(Type contentType, IDialogWindow window, IParameters parameters){
             var content = serviceProvider.GetRequiredService(contentType);
             if (!(content is FrameworkElement dialogContent))
                 throw new NullReferenceException("A dialog's content must be a FrameworkElement");
@@ -134,7 +135,7 @@ namespace Umi.Wbp.Dialogs
         }
 
 
-        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback, IDialogParameters dialogParameters){
+        protected virtual void ConfigureDialogWindowEvents(IDialogWindow dialogWindow, Action<IDialogResult> callback, IParameters dialogParameters){
             Action<IDialogResult> requestCloseHandler = null;
             requestCloseHandler = (o) =>
             {
