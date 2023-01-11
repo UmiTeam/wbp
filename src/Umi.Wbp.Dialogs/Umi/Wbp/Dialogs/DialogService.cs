@@ -93,7 +93,7 @@ namespace Umi.Wbp.Dialogs
         void ShowDialogInternal(Type contentType, IParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){
             if (parameters == null) parameters = new Parameters();
 
-            IDialogWindow dialogWindow = CreateDialogWindow(windowName);
+            var dialogWindow = CreateDialogWindow(windowName);
             ConfigureDialogWindowEvents(dialogWindow, callback, parameters);
             ConfigureDialogWindowContent(contentType, dialogWindow, parameters);
 

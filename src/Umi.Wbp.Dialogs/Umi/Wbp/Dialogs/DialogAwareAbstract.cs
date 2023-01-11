@@ -13,7 +13,7 @@ public abstract class DialogAwareAbstract : IDialogAware
     public virtual void OnDialogOpened(IParameters parameters){
     }
 
-    public string Title => nameof(Title);
+    public virtual string Title => nameof(Title);
 
     public event Action<IDialogResult> RequestClose;
 

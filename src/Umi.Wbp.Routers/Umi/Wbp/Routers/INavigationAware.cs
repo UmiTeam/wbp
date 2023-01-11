@@ -3,4 +3,5 @@
 public interface INavigationAware
 {
     void OnNavigatedTo(NavigationContext navigationContext);
+    void OnRefresh(NavigationContext navigationContext);
 }

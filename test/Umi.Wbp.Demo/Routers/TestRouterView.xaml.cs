@@ -22,4 +22,8 @@ public partial class TestRouterView : UserControl, IViewModelForSelf, INavigatio
         }
         MessageBox.Show("Navigated to body");
     }
+
+    public void OnRefresh(NavigationContext navigationContext){
+        MessageBox.Show("Refresh body");
+    }
 }

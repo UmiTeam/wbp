@@ -36,18 +36,25 @@ public class RouterService : IRouterService, ISingletonDependency
         {
             navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
             foreach (var (routerView, targetView) in GetNavigateRouters(null, newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext)){
-                if (routerView.Content == targetView && navigationParameters == CurrentEntry?.Parameters){
-                    continue;
+                if (routerView.Content == targetView){
+                    if (targetView is INavigationAware navigationAware){
+                        navigationAware.OnRefresh(navigationContext);
+                    }
+
+                    if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
+                        viewModelNavigationAware.OnRefresh(navigationContext);
+                    }
                 }
+                else{
+                    routerView.Content = targetView;
 
-                routerView.Content = targetView;
+                    if (targetView is INavigationAware navigationAware){
+                        navigationAware.OnNavigatedTo(navigationContext);
+                    }
 
-                if (targetView is INavigationAware navigationAware){
-                    navigationAware.OnNavigatedTo(navigationContext);
-                }
-
-                if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
-                    viewModelNavigationAware.OnNavigatedTo(navigationContext);
+                    if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
+                        viewModelNavigationAware.OnNavigatedTo(navigationContext);
+                    }
                 }
             }
 

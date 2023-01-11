@@ -22,4 +22,8 @@ public partial class RouterDemo : UserControl, IViewFor<RouterDemoViewModel>, IN
     public void OnNavigatedTo(NavigationContext navigationContext){
         MessageBox.Show("Navigated to router demo view");
     }
+
+    public void OnRefresh(NavigationContext navigationContext){
+        MessageBox.Show("Refresh router demo view");
+    }
 }

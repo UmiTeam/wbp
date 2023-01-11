@@ -19,7 +19,7 @@ public partial class HomeView : UserControl, IViewModelForSelf,INavigationAware
         InitializeComponent();
         ShowDialogDemoCommand = new RelayCommand(() => { routerService.Push("/dialog"); });
         ShowRouterDemoCommand = new RelayCommand(() => { routerService.Push("/router"); });
-        ChangeCultureCommand = new RelayCommand(() => { localizationService.ChangeCultureInfo(new("zh-Hans")); });
+        ChangeCultureCommand = new RelayCommand(() => { localizationService.ChangeCultureInfo(new("en-US")); });
     }
 
     public ICommand ShowDialogDemoCommand { get; set; }
@@ -28,5 +28,9 @@ public partial class HomeView : UserControl, IViewModelForSelf,INavigationAware
 
     public void OnNavigatedTo(NavigationContext navigationContext){
         MessageBox.Show("Navigated to home");
+    }
+
+    public void OnRefresh(NavigationContext navigationContext){
+        
     }
 }
