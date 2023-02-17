@@ -37,22 +37,32 @@ public class RouterService : IRouterService, ISingletonDependency
             navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
             foreach (var (routerView, targetView) in GetNavigateRouters(null, newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext)){
                 if (routerView.Content == targetView){
-                    if (targetView is INavigationAware navigationAware){
+                    if (targetView is IRefreshAware navigationAware){
                         navigationAware.OnRefresh(navigationContext);
                     }
 
-                    if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
+                    if (targetView is FrameworkElement { DataContext: IRefreshAware viewModelNavigationAware } and not IViewModelForSelf){
                         viewModelNavigationAware.OnRefresh(navigationContext);
                     }
                 }
                 else{
-                    routerView.Content = targetView;
+                    if (routerView.Content is INavigatedFromAware fromNavigationAware){
+                        fromNavigationAware.OnNavigatedFrom(navigationContext);
+                    }
 
-                    if (targetView is INavigationAware navigationAware){
+                    if (routerView.Content is FrameworkElement { DataContext: INavigatedFromAware fromViewModelNavigationAware } and not IViewModelForSelf){
+                        fromViewModelNavigationAware.OnNavigatedFrom(navigationContext);
+                    }
+                    
+                    
+                    routerView.Content = targetView;
+                    
+
+                    if (targetView is INavigatedToAware navigationAware){
                         navigationAware.OnNavigatedTo(navigationContext);
                     }
 
-                    if (targetView is FrameworkElement { DataContext: INavigationAware viewModelNavigationAware } and not IViewModelForSelf){
+                    if (targetView is FrameworkElement { DataContext: INavigatedToAware viewModelNavigationAware } and not IViewModelForSelf){
                         viewModelNavigationAware.OnNavigatedTo(navigationContext);
                     }
                 }

@@ -2,9 +2,8 @@
 using System.Windows;
 using Autofac;
 using Autofac.Core.Resolving.Pipeline;
-using Umi.Wbp.Mvvm;
 
-namespace Umi.Wbp.Core;
+namespace Umi.Wbp.Mvvm;
 
 public class ViewAndViewModelResolveMiddleware : IResolveMiddleware
 {

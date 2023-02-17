@@ -33,4 +33,8 @@ public partial class HomeView : UserControl, IViewModelForSelf,INavigationAware
     public void OnRefresh(NavigationContext navigationContext){
         
     }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext){
+        MessageBox.Show("Navigated from home");
+    }
 }

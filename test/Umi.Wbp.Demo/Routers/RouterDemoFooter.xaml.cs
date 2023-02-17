@@ -20,4 +20,8 @@ public partial class RouterDemoFooter : UserControl, IViewModelForSelf, INavigat
     public void OnRefresh(NavigationContext navigationContext){
         MessageBox.Show("Refresh to footer");
     }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext){
+        
+    }
 }

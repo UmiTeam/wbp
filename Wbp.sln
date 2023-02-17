@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Demo", "test\Umi.Wb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Localization", "src\Umi.Wbp.Localization\Umi.Wbp.Localization.csproj", "{85A2EC95-03BF-4612-BCEB-41F39388D88E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Mvvm", "src\Umi.Wbp.Mvvm\Umi.Wbp.Mvvm.csproj", "{3C8F2181-E73A-4A62-81C0-5B52A62D947B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,7 @@ Global
 		{DF80BA0D-041D-480C-B74F-7E941F37D667} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{BC0047DE-CDE0-4636-BE3B-4EAFC535887A} = {43319172-2FCA-4872-8EE9-3C54204D4DB7}
 		{85A2EC95-03BF-4612-BCEB-41F39388D88E} = {5F61B209-77DE-46F9-993E-44825409C4F5}
+		{3C8F2181-E73A-4A62-81C0-5B52A62D947B} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D384C36-7FDC-4072-B4D9-7BBEE4890B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -68,5 +71,9 @@ Global
 		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85A2EC95-03BF-4612-BCEB-41F39388D88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8F2181-E73A-4A62-81C0-5B52A62D947B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8F2181-E73A-4A62-81C0-5B52A62D947B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8F2181-E73A-4A62-81C0-5B52A62D947B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8F2181-E73A-4A62-81C0-5B52A62D947B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

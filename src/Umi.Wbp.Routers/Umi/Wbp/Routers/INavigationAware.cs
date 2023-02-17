@@ -1,7 +1,5 @@
 ﻿namespace Umi.Wbp.Routers;
 
-public interface INavigationAware
+public interface INavigationAware : INavigatedToAware, INavigatedFromAware, IRefreshAware
 {
-    void OnNavigatedTo(NavigationContext navigationContext);
-    void OnRefresh(NavigationContext navigationContext);
 }

@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
-        <RootNamespace/>
+        <RootNamespace />
         <LangVersion>latest</LangVersion>
         <PackageId>Umi.Wbp.Events</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Core" Version="6.0.0"/>
+        <PackageReference Include="Volo.Abp.Core" Version="6.0.1" />
     </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 using Autofac;
-using Umi.Wbp.Core;
+using Umi.Wbp.Mvvm;
 using Umi.Wbp.Routers;
 using Volo.Abp;
 using Volo.Abp.Modularity;

@@ -20,4 +20,8 @@ public partial class RouterDemoHeader : UserControl, IViewModelForSelf, INavigat
     public void OnRefresh(NavigationContext navigationContext){
         MessageBox.Show("Refresh to header");
     }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext){
+        
+    }
 }
