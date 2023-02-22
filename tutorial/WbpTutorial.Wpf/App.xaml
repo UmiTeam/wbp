@@ -1,0 +1,10 @@
+﻿<wbp:WbpApplication x:TypeArguments="local:WbpTutorialWpfModule, views:MainWindow" x:Class="WbpTutorial.Wpf.App"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WbpTutorial.Wpf"
+                    xmlns:views="clr-namespace:WbpTutorial.Wpf.Views"
+                    xmlns:wbp="clr-namespace:Umi.Wbp;assembly=Umi.Wbp">
+    <Application.Resources>
+
+    </Application.Resources>
+</wbp:WbpApplication>
