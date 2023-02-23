@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+      <PackageReference Include="Volo.Abp.Localization" Version="6.0.1" />
+      <PackageReference Include="WPFLocalizeExtension" Version="3.9.4" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Volo.Abp.Localization" Version="6.0.1" />
-      <PackageReference Include="WPFLocalizeExtension" Version="3.9.4" />
+      <ProjectReference Include="..\Umi.Wbp.Mvvm\Umi.Wbp.Mvvm.csproj" />
     </ItemGroup>
 
 </Project>

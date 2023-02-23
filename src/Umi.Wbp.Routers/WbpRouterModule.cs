@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using Umi.Wbp.Core;
 using Umi.Wbp.Mvvm;
 using Volo.Abp.Modularity;
 
 namespace Umi.Wbp.Routers;
 
-[DependsOn(typeof(WbpCoreModule))]
+[DependsOn(typeof(WbpMvvmModule))]
 public class WbpRouterModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context){

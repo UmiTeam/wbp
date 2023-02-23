@@ -1,8 +1,7 @@
 ﻿using Ookii.Dialogs.Wpf;
 using System;
-using Umi.Wbp.Dialogs;
 
-namespace Umi.Wbp.Core.Common.Dialogs
+namespace Umi.Wbp.Dialogs
 {
     /// <summary>
     /// Extensions for the IDialogService

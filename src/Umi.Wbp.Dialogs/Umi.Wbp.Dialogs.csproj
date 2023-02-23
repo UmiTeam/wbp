@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+      <ProjectReference Include="..\Umi.Wbp.Mvvm\Umi.Wbp.Mvvm.csproj" />
     </ItemGroup>
 
     <ItemGroup>

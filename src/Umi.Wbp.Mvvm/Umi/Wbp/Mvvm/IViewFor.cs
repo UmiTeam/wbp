@@ -2,5 +2,5 @@
 
 public interface IViewFor<T> where T : class
 {
-    public T? ViewModel { get; protected internal set; }
+    public T ViewModel { get; protected internal set; }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Ookii.Dialogs.Wpf;
-using Umi.Wbp.Core.Common;
+using Umi.Wbp.Mvvm.Common;
 
 namespace Umi.Wbp.Dialogs
 {

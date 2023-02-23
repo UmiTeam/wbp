@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using PropertyChanged;
 using Umi.Wbp.Commands;
-using Umi.Wbp.Core.Common;
+using Umi.Wbp.Mvvm.Common;
 using Umi.Wbp.Mvvm;
 using Umi.Wbp.Routers;
 

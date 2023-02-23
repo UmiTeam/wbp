@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
 using Ookii.Dialogs.Wpf;
-using Umi.Wbp.Core.Common;
+using Umi.Wbp.Mvvm.Common;
 using Volo.Abp.DependencyInjection;
 
 namespace Umi.Wbp.Dialogs

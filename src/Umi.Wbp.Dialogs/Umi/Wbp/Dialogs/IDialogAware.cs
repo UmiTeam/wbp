@@ -1,6 +1,5 @@
 ﻿using System;
-using Umi.Wbp.Core;
-using Umi.Wbp.Core.Common;
+using Umi.Wbp.Mvvm.Common;
 
 namespace Umi.Wbp.Dialogs
 {

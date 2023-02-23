@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Umi.Wbp.Core\Umi.Wbp.Core.csproj" />
+      <PackageReference Include="Volo.Abp.Autofac" Version="6.0.3" />
     </ItemGroup>
 
 </Project>

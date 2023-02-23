@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Umi.Wbp.Core.Common;
+using Umi.Wbp.Mvvm.Common;
 using Umi.Wbp.Mvvm;
 using Volo.Abp.DependencyInjection;
 

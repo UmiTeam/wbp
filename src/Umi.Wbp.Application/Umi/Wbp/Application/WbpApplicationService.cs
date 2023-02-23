@@ -14,9 +14,6 @@ namespace Umi.Wbp.Application;
 public abstract class WbpApplicationService<TEntity, TKey, TGetListInput> : ApplicationService, IWbpApplicationService<TEntity, TKey, TGetListInput> where TEntity : class, IEntity<TKey>
 {
     private readonly IRepository<TEntity, TKey> repository;
-    public IAbpLazyServiceProvider LazyServiceProvider { get; set; }
-    protected IAsyncQueryableExecuter AsyncExecuter => LazyServiceProvider.LazyGetRequiredService<IAsyncQueryableExecuter>();
-
 
     protected WbpApplicationService(IRepository<TEntity, TKey> repository){
         this.repository = repository;

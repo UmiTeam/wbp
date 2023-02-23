@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Microsoft.Extensions.Localization;
 using PropertyChanged;
 using Umi.Wbp.Commands;
-using Umi.Wbp.Core.Common.Dialogs;
 using Umi.Wbp.Demo.Localization;
 using Umi.Wbp.Dialogs;
 using Umi.Wbp.Mvvm;

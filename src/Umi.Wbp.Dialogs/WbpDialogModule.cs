@@ -1,9 +1,9 @@
-﻿using Umi.Wbp.Core;
+﻿using Umi.Wbp.Mvvm;
 using Volo.Abp.Modularity;
 
 namespace Umi.Wbp.Dialogs;
 
-[DependsOn(typeof(WbpCoreModule))]
+[DependsOn(typeof(WbpMvvmModule))]
 public class WbpDialogModule : AbpModule
 {
 }

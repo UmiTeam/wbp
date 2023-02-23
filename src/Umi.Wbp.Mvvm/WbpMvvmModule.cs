@@ -1,9 +1,9 @@
-﻿using Umi.Wbp.Core;
+﻿using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 
 namespace Umi.Wbp.Mvvm;
 
-[DependsOn(typeof(WbpCoreModule))]
+[DependsOn(typeof(AbpAutofacModule))]
 public class WbpMvvmModule : AbpModule
 {
 }

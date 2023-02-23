@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Umi.Wbp.Core.Common
+namespace Umi.Wbp.Mvvm.Common
 {
     /// <summary>
     /// This is a generic parameters base class used for Dialog Parameters and Navigation Parameters.
