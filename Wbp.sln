@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WbpTutorial.EntityFramework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WbpTutorial.Wpf", "tutorial\WbpTutorial.Wpf\WbpTutorial.Wpf.csproj", "{332CE226-A337-4590-8723-FBE1316653D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WbpTutorial.Application", "tutorial\WbpTutorial.Application\WbpTutorial.Application.csproj", "{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Application", "src\Umi.Wbp.Application\Umi.Wbp.Application.csproj", "{F57A4450-83D2-484D-B5DE-11F14BFEE70F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,8 @@ Global
 		{76C04B55-2DF2-4C46-ABB9-D4BD139EEE2F} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
 		{FC685693-0CF3-43A2-8CA1-E8623514D21E} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
 		{332CE226-A337-4590-8723-FBE1316653D1} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
+		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
+		{F57A4450-83D2-484D-B5DE-11F14BFEE70F} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D384C36-7FDC-4072-B4D9-7BBEE4890B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -105,5 +111,13 @@ Global
 		{332CE226-A337-4590-8723-FBE1316653D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332CE226-A337-4590-8723-FBE1316653D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{332CE226-A337-4590-8723-FBE1316653D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

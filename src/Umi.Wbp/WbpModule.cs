@@ -1,4 +1,5 @@
-﻿using Umi.Wbp.Core;
+﻿using Umi.Wbp.Application;
+using Umi.Wbp.Core;
 using Umi.Wbp.Dialogs;
 using Umi.Wbp.Events;
 using Umi.Wbp.Localization;
@@ -11,9 +12,9 @@ namespace Umi.Wbp;
     typeof(WbpDialogModule),
     typeof(WbpEventModule),
     typeof(WbpCoreModule),
+    typeof(UmiWbpApplicationModule),
     typeof(WbpRouterModule),
     typeof(WbpLocalizationModule))]
 public class WbpModule : AbpModule
 {
-    
 }

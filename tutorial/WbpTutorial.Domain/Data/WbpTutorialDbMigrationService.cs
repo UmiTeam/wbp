@@ -49,6 +49,9 @@ public class WbpTutorialDbMigrationService : ITransientDependency
 
         Logger.LogInformation($"Successfully completed host database migrations.");
 
+        await MigrateDatabaseSchemaAsync();
+        await SeedDataAsync();
+        
         // var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
 
         // var migratedDatabaseSchemas = new HashSet<string>();

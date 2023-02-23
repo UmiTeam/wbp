@@ -9,7 +9,7 @@ using Volo.Abp.Modularity;
 
 namespace Umi.Wbp;
 
-public abstract class WbpApplication<TModule, TWindow> : Application where TModule : AbpModule where TWindow : Window, IRouterHost
+public abstract class WbpApplication<TModule, TWindow> : System.Windows.Application where TModule : AbpModule where TWindow : Window, IRouterHost
 {
     protected IAbpApplicationWithInternalServiceProvider AbpApplication { get; private set; }
 

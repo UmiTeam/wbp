@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+using WbpTutorial.Domain.Books;
 
 namespace WbpTutorial.EntityFrameworkCore;
 
@@ -25,14 +27,13 @@ public class WbpTutorialDbContext :
 
     #endregion
 
-    public WbpTutorialDbContext(DbContextOptions<WbpTutorialDbContext> options)
-        : base(options)
-    {
+    public DbSet<Book> Books { get; set; }
 
+    public WbpTutorialDbContext(DbContextOptions<WbpTutorialDbContext> options)
+        : base(options){
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
+    protected override void OnModelCreating(ModelBuilder builder){
         base.OnModelCreating(builder);
 
         /* Include modules to your migration db context */
@@ -45,5 +46,7 @@ public class WbpTutorialDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.Entity<Book>(b => { b.ConfigureByConvention(); });
     }
 }

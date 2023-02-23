@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>WbpTutorial</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Umi.Wbp.Application\Umi.Wbp.Application.csproj" />
+      <ProjectReference Include="..\WbpTutorial.Domain\WbpTutorial.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-windows;net5.0-windows</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
         <UseWpf>true</UseWpf>
         <LangVersion>latest</LangVersion>
         <PackageId>Umi.Wbp</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\tutorial\WbpTutorial.Application\WbpTutorial.Application.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Commands\Umi.Wbp.Commands.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Dialogs\Umi.Wbp.Dialogs.csproj" />
         <ProjectReference Include="..\Umi.Wbp.Events\Umi.Wbp.Events.csproj" />

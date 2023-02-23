@@ -25,7 +25,7 @@ public class WbpTutorialDbContextFactory : IDesignTimeDbContextFactory<WbpTutori
     private static IConfigurationRoot BuildConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../WbpTutorial.DbMigrator/"))
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../WbpTutorial.Wpf/"))
             .AddJsonFile("appsettings.json", optional: false);
 
         return builder.Build();
