@@ -8,7 +8,7 @@ public abstract class NavigationAwareAbstract : INavigationAware
     public virtual void OnRefresh(NavigationContext navigationContext){
     }
 
-    public void OnNavigatedFrom(NavigationContext navigationContext){
+    public virtual void OnNavigatedFrom(NavigationContext navigationContext){
         
     }
 }

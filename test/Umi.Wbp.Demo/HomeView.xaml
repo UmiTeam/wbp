@@ -9,7 +9,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <TextBlock Text="{lex:Loc Key=LongWelcomeMessage}"></TextBlock>
+        <TextBlock Text="{lex:Loc LongWelcomeMessage}"></TextBlock>
         <Button Content="DialogDemo" Command="{Binding ShowDialogDemoCommand}"></Button>
         <Button Content="RouterDemo" Command="{Binding ShowRouterDemoCommand}"></Button>
         <Button Content="ChangeCulture" Command="{Binding ChangeCultureCommand}"></Button>
