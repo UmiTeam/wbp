@@ -6,6 +6,7 @@ using Umi.Wbp.Demo.Dialogs;
 using Umi.Wbp.Demo.Localization;
 using Umi.Wbp.Demo.Routers;
 using Umi.Wbp.Localization;
+using Umi.Wbp.Message;
 using Umi.Wbp.Routers;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Localization;
@@ -14,7 +15,7 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace Umi.Wbp.Demo;
 
-[DependsOn(typeof(WbpModule))]
+[DependsOn(typeof(WbpModule), typeof(WbpMessageModule))]
 public class DemoModule : AbpModule
 {
     private readonly ICollection<Route> routes = new List<Route>()
@@ -59,7 +60,7 @@ public class DemoModule : AbpModule
             options.Routes = routes;
             options.BeforeEach = (context, next) =>
             {
-                MessageBox.Show($"From:[{context.From}]-To:[{context.To}]");
+                // MessageBox.Show($"From:[{context.From}]-To:[{context.To}]");
                 next(context.To);
             };
         });

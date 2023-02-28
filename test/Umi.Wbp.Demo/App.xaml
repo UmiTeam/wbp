@@ -4,6 +4,5 @@
                     xmlns:wbp="clr-namespace:Umi.Wbp;assembly=Umi.Wbp"
                     xmlns:local="clr-namespace:Umi.Wbp.Demo">
     <Application.Resources>
-
     </Application.Resources>
 </wbp:WbpApplication>

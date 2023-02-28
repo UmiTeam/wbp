@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Umi.Wbp;
+using Umi.Wbp.Message;
 using Umi.Wbp.Routers;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
@@ -8,7 +9,10 @@ using WbpTutorial.Wpf.Views.Books;
 
 namespace WbpTutorial.Wpf;
 
-[DependsOn(typeof(WbpTutorialEntityFrameworkCoreModule), typeof(WbpTutorialApplicationModule), typeof(WbpModule))]
+[DependsOn(
+    typeof(WbpTutorialEntityFrameworkCoreModule),
+    typeof(WbpTutorialApplicationModule),
+    typeof(WbpModule), typeof(WbpMessageModule))]
 public class WbpTutorialWpfModule : AbpModule
 {
     private readonly ICollection<Route> routes = new List<Route>()

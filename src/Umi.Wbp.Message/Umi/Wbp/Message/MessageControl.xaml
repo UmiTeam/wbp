@@ -1,0 +1,60 @@
+﻿<Border x:Class="Umi.Wbp.Message.MessageControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Umi.Wbp.Message"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        CornerRadius="3" Padding="10"
+        VerticalAlignment="Bottom" HorizontalAlignment="Center"
+        Height="{Binding Tag, RelativeSource={RelativeSource Self},FallbackValue=30,TargetNullValue=30}"
+        Background="Black" Name="Root">
+
+    <Border.Resources>
+        <Storyboard x:Key="ActivateStoryboard" Duration="0:0:0.3">
+            <DoubleAnimation Storyboard.TargetName="Root"
+                             Storyboard.TargetProperty="Tag"
+                             From="0"
+                             To="40"
+                             Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation BeginTime="0"
+                             Storyboard.TargetName="Root"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0"
+                             Duration="0" />
+            <DoubleAnimation BeginTime="0:0:0.075"
+                             Storyboard.TargetName="Root"
+                             Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.225">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="DeactivateStoryboard" Duration="0:0:0.3">
+            <DoubleAnimation Storyboard.TargetName="Root"
+                             Storyboard.TargetProperty="Tag"
+                             From="40"
+                             To="0"
+                             Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Border.Resources>
+
+    <Border.Tag>
+        <system:Double>0.0</system:Double>
+    </Border.Tag>
+
+    <TextBlock x:Name="TextBlock" VerticalAlignment="Center"
+               Foreground="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType=local:MessageControl}}" />
+</Border>

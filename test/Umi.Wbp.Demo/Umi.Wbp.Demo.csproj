@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\Umi.Wbp.Message\Umi.Wbp.Message.csproj" />
       <ProjectReference Include="..\..\src\Umi.Wbp\Umi.Wbp.csproj" />
     </ItemGroup>
 

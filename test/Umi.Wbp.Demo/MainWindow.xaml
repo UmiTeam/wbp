@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Umi.Wbp.Demo"
         xmlns:router="clr-namespace:Umi.Wbp.Routers;assembly=Umi.Wbp.Routers"
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:messages="clr-namespace:Umi.Wbp.Message;assembly=Umi.Wbp.Message"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <behaviors:Interaction.Triggers>
@@ -13,11 +14,15 @@
             <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Back" Command="{Binding BackCommand}"></Button>
-            <Button Content="Forward" Command="{Binding ForwardCommand}"></Button>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Back" Command="{Binding BackCommand}"></Button>
+                <Button Content="Forward" Command="{Binding ForwardCommand}"></Button>
+            </StackPanel>
+            <router:RouterView x:Name="RouterView"></router:RouterView>
+            <Button Content="ShowMessage" Command="{Binding ShowMessageCommand}"></Button>
         </StackPanel>
-        <router:RouterView x:Name="RouterView"></router:RouterView>
-    </StackPanel>
+        <messages:MessageControl MessageQueue="{Binding MessageQueue}"></messages:MessageControl>
+    </Grid>
 </Window>

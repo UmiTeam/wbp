@@ -5,9 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using Umi.Wbp.Message;
 using Volo.Abp;
 using WbpTutorial.Data;
 
@@ -29,6 +31,12 @@ namespace WbpTutorial.Wpf
                 .Enrich.FromLogContext()
                 .WriteTo.Async(c => c.File("Logs/logs.txt"))
                 .CreateLogger();
+        }
+
+        protected override void OnWbpApplicationError(object sender, DispatcherUnhandledExceptionEventArgs args){
+            var messageService = AbpApplication.ServiceProvider.GetRequiredService<IMessageService>();
+            messageService.ShowMessage(args.Exception.Message);
+            args.Handled = true;
         }
 
         protected override void AfterWbpApplicationInitialize(){
