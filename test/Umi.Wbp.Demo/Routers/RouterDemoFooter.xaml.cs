@@ -22,6 +22,6 @@ public partial class RouterDemoFooter : UserControl, IViewModelForSelf, INavigat
     }
 
     public void OnNavigatedFrom(NavigationContext navigationContext){
-        
+        MessageBox.Show("Navigated from footer");
     }
 }

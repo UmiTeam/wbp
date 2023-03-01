@@ -7,7 +7,7 @@ public class WbpRouterOptions
 {
     public ICollection<Route> Routes { get; set; }
 
-    public Action<NavigationContext, Action<string>> BeforeEach { get; set; } = (context, next) => { next?.Invoke(context.To); };
+    public Action<NavigationContext, Action<string, bool>> BeforeEach { get; set; } = (context, next) => { next?.Invoke(context.To, true); };
     public Action<NavigationContext> AfterEach { get; set; }
     internal string BasePath { get; init; } = "http://localhost";
 }

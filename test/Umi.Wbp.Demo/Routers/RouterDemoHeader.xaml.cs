@@ -22,6 +22,6 @@ public partial class RouterDemoHeader : UserControl, IViewModelForSelf, INavigat
     }
 
     public void OnNavigatedFrom(NavigationContext navigationContext){
-        
+        MessageBox.Show("Navigated from header");
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -29,44 +28,12 @@ public class RouterService : IRouterService, ISingletonDependency
 
     public void Push(string url, IParameters navigationParameters){
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
-
         NavigationContext navigationContext = new(navigationParameters, CurrentEntry?.Path, url);
-
-        wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, newUrl =>
+        wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, (newUrl, canNavigate) =>
         {
+            if (!canNavigate) return;
             navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
-            foreach (var (routerView, targetView) in GetNavigateRouters(null, newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext)){
-                if (routerView.Content == targetView){
-                    if (targetView is IRefreshAware navigationAware){
-                        navigationAware.OnRefresh(navigationContext);
-                    }
-
-                    if (targetView is FrameworkElement { DataContext: IRefreshAware viewModelNavigationAware } and not IViewModelForSelf){
-                        viewModelNavigationAware.OnRefresh(navigationContext);
-                    }
-                }
-                else{
-                    if (routerView.Content is INavigatedFromAware fromNavigationAware){
-                        fromNavigationAware.OnNavigatedFrom(navigationContext);
-                    }
-
-                    if (routerView.Content is FrameworkElement { DataContext: INavigatedFromAware fromViewModelNavigationAware } and not IViewModelForSelf){
-                        fromViewModelNavigationAware.OnNavigatedFrom(navigationContext);
-                    }
-                    
-                    
-                    routerView.Content = targetView;
-                    
-
-                    if (targetView is INavigatedToAware navigationAware){
-                        navigationAware.OnNavigatedTo(navigationContext);
-                    }
-
-                    if (targetView is FrameworkElement { DataContext: INavigatedToAware viewModelNavigationAware } and not IViewModelForSelf){
-                        viewModelNavigationAware.OnNavigatedTo(navigationContext);
-                    }
-                }
-            }
+            Navigate(newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext);
 
             var navigationJournalEntry = new NavigationJournalEntry(url, navigationParameters);
             RecordNavigation(navigationJournalEntry);
@@ -104,49 +71,6 @@ public class RouterService : IRouterService, ISingletonDependency
         CurrentEntry = entry;
     }
 
-
-    ICollection<(RouterView, object)> GetNavigateRouters(string parentUrl, string url, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext){
-        var needNavigateRouterViews = new List<(RouterView, object)>();
-        var targetUri = new Uri($"{wbpRouterOptions.Value.BasePath}{url}/");
-        foreach (var route in routes){
-            Uri routeUri = new($"{wbpRouterOptions.Value.BasePath}{parentUrl}{route.Path}/");
-            // Query satisfied route
-            if (!routeUri.IsBaseOf(targetUri)) continue;
-            foreach (var routerView in routerViews){
-                var hasRoute = false;
-                foreach (var (routerViewName, viewType) in route.GetComponents()){
-                    if (routerView.RouterName != routerViewName) continue;
-                    hasRoute = true;
-
-                    var targetView = routerView.Content?.GetType() == viewType ? routerView.Content : serviceProvider.GetService(viewType);
-
-                    needNavigateRouterViews.Add((routerView, targetView));
-
-                    // Get child router
-                    var childRouter = GetChildRouter(targetView);
-                    if (!targetUri.IsBaseOf(routeUri) && route.Children.Count > 0){
-                        // Navigate child router
-                        if (childRouter.Any()){
-                            needNavigateRouterViews.AddRange(GetNavigateRouters(parentUrl + route.Path, url, route.Children, childRouter, navigationContext));
-                        }
-                    }
-                    else{
-                        needNavigateRouterViews.AddRange(childRouter.Select(childRouterView => ((RouterView, object))(childRouterView, null)));
-                    }
-
-                    break;
-                }
-
-                if (!hasRoute){
-                    //No route router
-                    needNavigateRouterViews.Add((routerView, null));
-                }
-            }
-        }
-
-        return needNavigateRouterViews;
-    }
-
     private IEnumerable<RouterView> GetChildRouter(object control){
         List<RouterView> routerControls = new();
         if (control is FrameworkElement frameworkElement)
@@ -160,5 +84,81 @@ public class RouterService : IRouterService, ISingletonDependency
             }
 
         return routerControls;
+    }
+
+    private void CallChildRouterViewNavigatedFromAction(object content, NavigationContext navigationContext){
+        var childRouter = GetChildRouter(content);
+        foreach (var routerView in childRouter){
+            MvvmHelper.CallViewAndViewModelAction<INavigatedFromAware>(routerView.Content,
+                navigatedFromAware => navigatedFromAware.OnNavigatedFrom(navigationContext));
+            CallChildRouterViewNavigatedFromAction(routerView, navigationContext);
+        }
+    }
+
+    private void Navigate(string targetUrl, IEnumerable<Route> routes, IEnumerable<RouterView> routerViews, NavigationContext navigationContext){
+        string path = null;
+        if (targetUrl == "/"){
+            path = "";
+        }
+        else{
+            var paths = targetUrl.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            path = paths[0];
+        }
+
+
+        Route targetRoute = null;
+        foreach (var route in routes){
+            if (route.Path.Trim('/') == path){
+                targetRoute = route;
+                break;
+            }
+        }
+
+        List<RouterView> newRouterViews = new();
+        foreach (var routerView in routerViews){
+            if (targetRoute?.GetComponents().TryGetValue(routerView.RouterName, out var contentType) ?? false){
+                //Has route
+
+
+                if (routerView.Content?.GetType() == contentType){
+                    //Refresh page.
+                    MvvmHelper.CallViewAndViewModelAction<IRefreshAware>(routerView.Content,
+                        refreshAware => refreshAware.OnRefresh(navigationContext));
+                }
+                else{
+                    //Call navigated from.
+                    MvvmHelper.CallViewAndViewModelAction<INavigatedFromAware>(routerView.Content,
+                        navigatedFromAware => navigatedFromAware.OnNavigatedFrom(navigationContext));
+
+                    CallChildRouterViewNavigatedFromAction(routerView.Content, navigationContext);
+
+                    routerView.Content = serviceProvider.GetService(contentType);
+
+                    //Call navigated to.
+                    MvvmHelper.CallViewAndViewModelAction<INavigatedToAware>(routerView.Content,
+                        navigatedToAware => navigatedToAware.OnNavigatedTo(navigationContext));
+                }
+            }
+            else{
+                //No route
+
+                //Call navigated from.
+                MvvmHelper.CallViewAndViewModelAction<INavigatedFromAware>(routerView.Content,
+                    navigatedFromAware => navigatedFromAware.OnNavigatedFrom(navigationContext));
+                CallChildRouterViewNavigatedFromAction(routerView.Content, navigationContext);
+
+                routerView.Content = null;
+            }
+
+            newRouterViews.AddRange(GetChildRouter(routerView.Content));
+        }
+
+        var newPath = targetUrl.ReplaceFirst($"/{path}", "");
+        var newRoutes = targetRoute?.Children;
+        if (string.IsNullOrEmpty(newPath) || newRoutes?.Count == 0 || newRouterViews.Count == 0){
+        }
+        else{
+            Navigate(newPath, newRoutes, newRouterViews, navigationContext);
+        }
     }
 }

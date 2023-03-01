@@ -34,6 +34,8 @@ public abstract class WbpApplication<TModule, TWindow> : System.Windows.Applicat
         if (AbpApplication.Services.GetRequiredService(typeof(TWindow)) is Window mainWindow){
             MainWindow = mainWindow;
             MainWindow.Show();
+
+            AbpApplication.Services.GetRequiredService<IRouterService>()?.Push("/");
         }
         else{
             throw new UserFriendlyException("Main component must be wpf window control");

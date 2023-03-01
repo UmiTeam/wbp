@@ -9,7 +9,7 @@ public class MvvmHelper
         if (view is T viewAsT)
             action(viewAsT);
 
-        if (view is FrameworkElement { DataContext: T viewModelAsT }){
+        if (view is FrameworkElement { DataContext: T viewModelAsT } and not IViewModelForSelf){
             action(viewModelAsT);
         }
     }
@@ -19,7 +19,7 @@ public class MvvmHelper
             if (!action(viewAsT))
                 return false;
 
-        if (view is FrameworkElement { DataContext: T viewModelAsT }){
+        if (view is FrameworkElement { DataContext: T viewModelAsT } and not IViewModelForSelf){
             if (!action(viewModelAsT))
                 return false;
         }

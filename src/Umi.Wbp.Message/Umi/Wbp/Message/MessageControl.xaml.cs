@@ -11,10 +11,10 @@ namespace Umi.Wbp.Message;
 public partial class MessageControl : Border
 {
     private readonly Dispatcher dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
-
+    private readonly Thread showMessageThread;
     public MessageControl(){
         InitializeComponent();
-        var showMessageThread = new Thread(ShowMessage);
+        showMessageThread = new Thread(ShowMessage);
         showMessageThread.Start();
     }
 

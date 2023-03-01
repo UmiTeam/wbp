@@ -6,12 +6,14 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 
 namespace Umi.Wbp.Application;
 
 public abstract class WbpApplicationService<TEntity, TKey, TGetListInput> : ApplicationService, IWbpApplicationService<TEntity, TKey, TGetListInput> where TEntity : class, IEntity<TKey>
 {
     private readonly IRepository<TEntity, TKey> repository;
+    private IObjectMapper ObjectMapper => LazyServiceProvider.LazyGetRequiredService<IObjectMapper>();
 
     protected WbpApplicationService(IRepository<TEntity, TKey> repository){
         this.repository = repository;
@@ -45,7 +47,9 @@ public abstract class WbpApplicationService<TEntity, TKey, TGetListInput> : Appl
         return entity;
     }
 
-    public async Task<TEntity> UpdateAsync(TKey id, TEntity entity){
+    public async Task<TEntity> UpdateAsync(TKey id, TEntity input){
+        var entity = await repository.GetAsync(id);
+        ObjectMapper.Map(input, entity);
         await repository.UpdateAsync(entity, autoSave: true);
         return entity;
     }

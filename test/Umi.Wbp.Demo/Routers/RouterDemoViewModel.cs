@@ -18,7 +18,7 @@ public class RouterDemoViewModel : NavigationAwareAbstract, IViewModelFor<Router
     public RouterDemoViewModel(IRouterService routerService){
         this.routerService = routerService;
         NavigateCommand = new RelayCommand(() => { routerService.Push("/router/test", new Parameters() { { "Identifier", Guid.NewGuid() } }); });
-        NavigateBackCommand = new RelayCommand(() => { routerService.Push("/home"); });
+        NavigateHomeCommand = new RelayCommand(() => { routerService.Push("/home"); });
     }
 
     RouterDemo IViewModelFor<RouterDemo>.View
@@ -28,9 +28,10 @@ public class RouterDemoViewModel : NavigationAwareAbstract, IViewModelFor<Router
     }
 
     public ICommand NavigateCommand { get; set; }
-    public ICommand NavigateBackCommand { get; set; }
-
     public override void OnNavigatedTo(NavigationContext navigationContext){
         MessageBox.Show("Navigated to router demo view model");
     }
+
+    public ICommand NavigateHomeCommand { get; set; }
+    
 }

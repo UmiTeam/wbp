@@ -21,7 +21,10 @@ namespace Umi.Wbp.Demo
             this.routerService = routerService;
             this.messageService = messageService;
             InitializeComponent();
-            LoadedCommand = new RelayCommand(() => { routerService.Push("/home"); });
+            LoadedCommand = new RelayCommand(() =>
+            {
+                // routerService.Push("//home");
+            });
             BackCommand = new RelayCommand((() => { routerService.GoBack(); }));
             ForwardCommand = new RelayCommand((() => { routerService.GoForward(); }));
             ShowMessageCommand = new RelayCommand(() => { messageService.ShowMessage($"Time: {DateTime.Now} Random: {Random.Shared.Next(int.MaxValue)}"); });
