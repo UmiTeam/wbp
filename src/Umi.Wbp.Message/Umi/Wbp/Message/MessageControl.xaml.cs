@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -12,52 +12,27 @@ public partial class MessageControl : Border
 {
     private readonly Dispatcher dispatcher = Dispatcher.FromThread(Thread.CurrentThread);
     private readonly Thread showMessageThread;
+    private MessageQueueItem currentMessageQueueItem;
+
     public MessageControl(){
         InitializeComponent();
-        showMessageThread = new Thread(ShowMessage);
-        showMessageThread.Start();
     }
 
-    private void ShowMessage(){
-        while (true){
-            MessageQueue messageQueue = null;
-            try{
-                dispatcher.Invoke(() => { messageQueue = MessageQueue; });
-            }
-            catch (TaskCanceledException){
-                return;
-            }
-
-            messageQueue?.EventWaitHandle.WaitOne();
-
-            if (messageQueue.TryDequeue(out var item)){
-                try{
-                    dispatcher.Invoke(() =>
-                    {
-                        var storyboard = FindResource("ActivateStoryboard") as Storyboard;
-                        storyboard?.Begin();
-                        Message = item.Message;
-                    });
-                }
-                catch (TaskCanceledException){
-                    return;
-                }
-
-                Thread.Sleep(item.Duration);
-                try{
-                    dispatcher.Invoke(() =>
-                    {
-                        var storyboard = FindResource("DeactivateStoryboard") as Storyboard;
-                        storyboard?.Begin();
-                    });
-                }
-                catch (TaskCanceledException){
-                    return;
-                }
-            }
-            else{
-                messageQueue.EventWaitHandle.Set();
-            }
+    public void ShowMessage(MessageQueueItem messageQueueItem){
+        currentMessageQueueItem = messageQueueItem;
+        dispatcher.Invoke(() =>
+        {
+            Message = messageQueueItem.Message;
+            var activeStoryboard = FindResource("ActivateStoryboard") as Storyboard;
+            activeStoryboard?.Begin();
+        });
+        Thread.Sleep(messageQueueItem.Duration);
+        if (currentMessageQueueItem == messageQueueItem){
+            dispatcher.Invoke(() =>
+            {
+                var deactiveStoryboard = FindResource("DeactivateStoryboard") as Storyboard;
+                deactiveStoryboard?.Begin();
+            });
         }
     }
 
@@ -65,7 +40,7 @@ public partial class MessageControl : Border
 
     public static readonly DependencyProperty MessageQueueProperty = DependencyProperty.Register(
         nameof(MessageQueue), typeof(MessageQueue), typeof(MessageControl),
-        new PropertyMetadata(default(MessageQueue)));
+        new PropertyMetadata(default(MessageQueue), MessageQueuePropertyChangedCallback));
 
     public MessageQueue MessageQueue
     {
@@ -73,9 +48,15 @@ public partial class MessageControl : Border
         set => SetValue(MessageQueueProperty, value);
     }
 
+    private static void MessageQueuePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e){
+        var wbpMessage = (MessageControl)dependencyObject;
+        var messageQueue = e.NewValue as MessageQueue;
+        messageQueue?.PairMessageControl(wbpMessage);
+    }
+
     public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(
         nameof(Message), typeof(string), typeof(MessageControl),
-        new PropertyMetadata(default(string), propertyChangedCallback: PropertyChangedCallback));
+        new PropertyMetadata(default(string), propertyChangedCallback: MessagePropertyChangedCallback));
 
     public string Message
     {
@@ -83,7 +64,7 @@ public partial class MessageControl : Border
         set => SetValue(MessageProperty, value);
     }
 
-    private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e){
+    private static void MessagePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e){
         var wbpMessage = (MessageControl)dependencyObject;
         wbpMessage.TextBlock.Text = e.NewValue as string;
     }
