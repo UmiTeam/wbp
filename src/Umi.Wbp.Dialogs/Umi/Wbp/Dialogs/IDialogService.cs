@@ -49,5 +49,7 @@ namespace Umi.Wbp.Dialogs
         void ShowFolderBrowserDialog(VistaFolderBrowserDialog dialog, Action<IDialogResult> callback = null);
 
         void ShowProgressDialog(ProgressDialog dialog, Action<IDialogResult> callback = null);
+
+        void ShowConfirmDialog(string text, string title, ConfirmDialogButtons confirmDialogButton = ConfirmDialogButtons.YesNo, Action<IDialogResult> callback = null);
     }
 }

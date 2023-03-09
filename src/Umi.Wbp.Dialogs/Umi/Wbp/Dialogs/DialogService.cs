@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using JetBrains.Annotations;
 using Ookii.Dialogs.Wpf;
@@ -88,6 +87,23 @@ namespace Umi.Wbp.Dialogs
                 callback?.Invoke(dialogResult);
             };
             dialog.ShowDialog();
+        }
+
+        private static ButtonResult MessageBoxResultToButtonResult(MessageBoxResult messageBoxResult){
+            return messageBoxResult switch
+            {
+                MessageBoxResult.Yes => ButtonResult.Yes,
+                MessageBoxResult.No => ButtonResult.No,
+                MessageBoxResult.Cancel => ButtonResult.Cancel,
+                MessageBoxResult.None => ButtonResult.None,
+                MessageBoxResult.OK => ButtonResult.OK,
+                _ => throw new ArgumentOutOfRangeException(nameof(messageBoxResult), messageBoxResult, null)
+            };
+        }
+        public void ShowConfirmDialog(string text, string title, ConfirmDialogButtons confirmDialogButton = ConfirmDialogButtons.YesNo, Action<IDialogResult> callback = null){
+            var result = MessageBox.Show(text, title, confirmDialogButton.ToMessageBoxButton());
+            DialogResult dialogResult = new(MessageBoxResultToButtonResult(result));
+            callback?.Invoke(dialogResult);
         }
 
         void ShowDialogInternal(Type contentType, IParameters parameters, Action<IDialogResult> callback, bool isModal, string windowName = null){

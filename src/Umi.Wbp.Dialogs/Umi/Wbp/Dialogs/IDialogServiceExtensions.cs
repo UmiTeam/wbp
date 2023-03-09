@@ -1,5 +1,6 @@
 ﻿using Ookii.Dialogs.Wpf;
 using System;
+using System.Windows;
 
 namespace Umi.Wbp.Dialogs
 {
@@ -16,13 +17,18 @@ namespace Umi.Wbp.Dialogs
             dialogService.ShowFileDialog(dialog, callback);
         }
 
-        public static void ShowSaveFileDialog(this IDialogService dialogService, string filter, Action<IDialogResult> callback = null){
+        public static void ShowSaveFileDialog(this IDialogService dialogService, string filter, string title, string fileName, Action<IDialogResult> callback = null){
             VistaSaveFileDialog dialog = new()
             {
-                Filter = filter
+                Filter = filter,
+                Title = title,
+                FileName = fileName
             };
             dialogService.ShowFileDialog(dialog, callback);
         }
+
+        public static void ShowSaveFileDialog(this IDialogService dialogService, string filter, string fileName, Action<IDialogResult> callback = null) => ShowSaveFileDialog(dialogService, filter, "", fileName, callback);
+        public static void ShowSaveFileDialog(this IDialogService dialogService, string filter, Action<IDialogResult> callback = null) => ShowSaveFileDialog(dialogService, filter, "", callback);
 
         public static void ShowFolderBrowserDialog(this IDialogService dialogService, string description, Action<IDialogResult> callback = null){
             var dialog = new VistaFolderBrowserDialog()
