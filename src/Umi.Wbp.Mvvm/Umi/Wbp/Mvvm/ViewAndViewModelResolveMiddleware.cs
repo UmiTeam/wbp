@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using Autofac;
 using Autofac.Core.Resolving.Pipeline;
@@ -22,7 +23,7 @@ public class ViewAndViewModelResolveMiddleware : IResolveMiddleware
                     frameworkElement.DataContext = viewModel;
 
                     // Setting view model for
-                    var property = @interface.GetProperty(nameof(IViewFor<object>.ViewModel));
+                    var property = @interface.GetProperty(nameof(IViewFor<object>.ViewModel), BindingFlags.NonPublic | BindingFlags.Instance);
                     property.SetValue(context.Instance, Convert.ChangeType(viewModel, property.PropertyType));
 
                     // Setting view for

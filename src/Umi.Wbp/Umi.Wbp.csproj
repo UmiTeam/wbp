@@ -8,16 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Umi.Wbp.Application\Umi.Wbp.Application.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Commands\Umi.Wbp.Commands.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Dialogs\Umi.Wbp.Dialogs.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Events\Umi.Wbp.Events.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Localization\Umi.Wbp.Localization.csproj" />
-        <ProjectReference Include="..\Umi.Wbp.Routers\Umi.Wbp.Routers.csproj" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+      <ProjectReference Include="..\Umi.Wbp.Routers\Umi.Wbp.Routers.csproj" />
     </ItemGroup>
 
 </Project>

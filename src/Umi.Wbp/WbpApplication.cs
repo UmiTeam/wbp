@@ -9,7 +9,7 @@ using Volo.Abp.Modularity;
 
 namespace Umi.Wbp;
 
-public abstract class WbpApplication<TModule, TWindow> : System.Windows.Application where TModule : AbpModule where TWindow : Window, IRouterHost
+public abstract class WbpApplication<TModule, TWindow> : Application where TModule : AbpModule where TWindow : Window, IRouterHost
 {
     protected IAbpApplicationWithInternalServiceProvider AbpApplication { get; private set; }
 
@@ -42,9 +42,17 @@ public abstract class WbpApplication<TModule, TWindow> : System.Windows.Applicat
         }
     }
 
+    /// <summary>
+    /// Wbp应用初始化
+    /// </summary>
     protected virtual void BeforeWbpApplicationInitialize(){
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
     protected virtual void OnWbpApplicationError(object sender, DispatcherUnhandledExceptionEventArgs args){
     }
 
@@ -58,7 +66,7 @@ public abstract class WbpApplication<TModule, TWindow> : System.Windows.Applicat
     }
 
     protected override async void OnExit(ExitEventArgs e){
-        await AbpApplication.ShutdownAsync();
         OnWbpApplicationExit();
+        await AbpApplication.ShutdownAsync();
     }
 }

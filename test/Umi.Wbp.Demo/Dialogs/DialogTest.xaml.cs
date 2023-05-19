@@ -7,15 +7,9 @@ namespace Umi.Wbp.Demo.Dialogs;
 
 public partial class DialogTest : UserControl, IViewFor<DialogTestViewModel>
 {
-    private DialogTestViewModel viewModel;
-
     public DialogTest(){
         InitializeComponent();
     }
 
-    DialogTestViewModel IViewFor<DialogTestViewModel>.ViewModel
-    {
-        get => viewModel;
-        set => viewModel = value;
-    }
+    DialogTestViewModel IViewFor<DialogTestViewModel>.ViewModel { get; set; }
 }

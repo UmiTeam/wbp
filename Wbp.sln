@@ -32,9 +32,37 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WbpTutorial.Wpf", "tutorial
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WbpTutorial.Application", "tutorial\WbpTutorial.Application\WbpTutorial.Application.csproj", "{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Application", "src\Umi.Wbp.Application\Umi.Wbp.Application.csproj", "{F57A4450-83D2-484D-B5DE-11F14BFEE70F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Message", "src\Umi.Wbp.Message\Umi.Wbp.Message.csproj", "{82FD3C32-98FA-42F1-8089-881A5B4DC632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Mvvm.Test", "test\Umi.Wbp.Mvvm.Test\Umi.Wbp.Mvvm.Test.csproj", "{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documents", "documents", "{418FEF9F-7EC2-49DB-93BE-59679C596F2D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		README_EN.md = README_EN.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "en", "en", "{C652BF32-B309-4484-B46E-AEE218F80E58}"
+	ProjectSection(SolutionItems) = preProject
+		documents\en\QuickStart.md = documents\en\QuickStart.md
+		documents\en\Application.md = documents\en\Application.md
+		documents\en\Command.md = documents\en\Command.md
+		documents\en\Dialog.md = documents\en\Dialog.md
+		documents\en\Event.md = documents\en\Event.md
+		documents\en\Router.md = documents\en\Router.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zh-Hans", "zh-Hans", "{8E95613B-A3D1-4DBD-8492-CBF7EAC145BD}"
+	ProjectSection(SolutionItems) = preProject
+		documents\zh-Hans\QuickStart.md = documents\zh-Hans\QuickStart.md
+		documents\zh-Hans\Router.md = documents\zh-Hans\Router.md
+		documents\zh-Hans\Event.md = documents\zh-Hans\Event.md
+		documents\zh-Hans\Command.md = documents\zh-Hans\Command.md
+		documents\zh-Hans\Dialog.md = documents\zh-Hans\Dialog.md
+		documents\zh-Hans\Application.md = documents\zh-Hans\Application.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wbp.Tutorial.Wpf", "tutorial\Wbp.Tutorial.Wpf\Wbp.Tutorial.Wpf.csproj", "{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,8 +83,11 @@ Global
 		{FC685693-0CF3-43A2-8CA1-E8623514D21E} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
 		{332CE226-A337-4590-8723-FBE1316653D1} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
 		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
-		{F57A4450-83D2-484D-B5DE-11F14BFEE70F} = {5F61B209-77DE-46F9-993E-44825409C4F5}
 		{82FD3C32-98FA-42F1-8089-881A5B4DC632} = {5F61B209-77DE-46F9-993E-44825409C4F5}
+		{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6} = {43319172-2FCA-4872-8EE9-3C54204D4DB7}
+		{C652BF32-B309-4484-B46E-AEE218F80E58} = {418FEF9F-7EC2-49DB-93BE-59679C596F2D}
+		{8E95613B-A3D1-4DBD-8492-CBF7EAC145BD} = {418FEF9F-7EC2-49DB-93BE-59679C596F2D}
+		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D384C36-7FDC-4072-B4D9-7BBEE4890B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -111,13 +142,17 @@ Global
 		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0753AEAB-18AD-4F44-BAA1-E6BAADE90385}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F57A4450-83D2-484D-B5DE-11F14BFEE70F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82FD3C32-98FA-42F1-8089-881A5B4DC632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82FD3C32-98FA-42F1-8089-881A5B4DC632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82FD3C32-98FA-42F1-8089-881A5B4DC632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82FD3C32-98FA-42F1-8089-881A5B4DC632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D41A9ED-ACEA-46AD-9451-30D4E0C75CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

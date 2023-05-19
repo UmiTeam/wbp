@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\Umi.Wbp.Commands\Umi.Wbp.Commands.csproj" />
       <ProjectReference Include="..\..\src\Umi.Wbp.Message\Umi.Wbp.Message.csproj" />
       <ProjectReference Include="..\..\src\Umi.Wbp\Umi.Wbp.csproj" />
       <ProjectReference Include="..\WbpTutorial.Application\WbpTutorial.Application.csproj" />

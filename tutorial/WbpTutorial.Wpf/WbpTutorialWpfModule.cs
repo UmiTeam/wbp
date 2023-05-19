@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Umi.Wbp;
+using Umi.Wbp.Commands;
 using Umi.Wbp.Message;
 using Umi.Wbp.Routers;
 using Volo.Abp.Modularity;
@@ -12,7 +13,7 @@ namespace WbpTutorial.Wpf;
 [DependsOn(
     typeof(WbpTutorialEntityFrameworkCoreModule),
     typeof(WbpTutorialApplicationModule),
-    typeof(WbpModule), typeof(WbpMessageModule))]
+    typeof(WbpModule), typeof(WbpMessageModule), typeof(WbpCommandModule))]
 public class WbpTutorialWpfModule : AbpModule
 {
     private readonly ICollection<Route> routes = new List<Route>()

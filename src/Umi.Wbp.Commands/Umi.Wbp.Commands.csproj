@@ -2,10 +2,14 @@
 
     <PropertyGroup>
         <TargetFrameworks>net6.0</TargetFrameworks>
-        <RootNamespace/>
+        <RootNamespace />
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <PackageId>Umi.Wbp.Commands</PackageId>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Volo.Abp.Core" Version="6.0.3" />
+    </ItemGroup>
 
 </Project>

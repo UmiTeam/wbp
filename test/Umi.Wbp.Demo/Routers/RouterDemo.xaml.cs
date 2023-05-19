@@ -7,17 +7,11 @@ namespace Umi.Wbp.Demo.Routers;
 
 public partial class RouterDemo : UserControl, IViewFor<RouterDemoViewModel>, INavigationAware
 {
-    private RouterDemoViewModel viewModel;
-
     public RouterDemo(){
         InitializeComponent();
     }
 
-    RouterDemoViewModel IViewFor<RouterDemoViewModel>.ViewModel
-    {
-        get => viewModel;
-        set => viewModel = value;
-    }
+    RouterDemoViewModel IViewFor<RouterDemoViewModel>.ViewModel { get; set; }
 
     public void OnNavigatedTo(NavigationContext navigationContext){
         MessageBox.Show("Navigated to router demo view");

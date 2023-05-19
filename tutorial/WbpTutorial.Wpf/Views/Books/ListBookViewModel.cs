@@ -19,8 +19,8 @@ public class ListBookViewModel : INavigatedToAware
     public IEnumerable<Book> Books { get; set; }
 
     public void OnNavigatedTo(NavigationContext navigationContext){
-        var listBookTask = bookAppService.GetListAsync(new PagedResult());
-        listBookTask.Wait();
-        Books = listBookTask.Result.Items;
+        // var listBookTask = bookAppService.GetListAsync(new PagedResult());
+        // listBookTask.Wait();
+        // Books = listBookTask.Result.Items;
     }
 }

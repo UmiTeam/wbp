@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Windows;
 using Routers;
+using Umi.Wbp.Commands;
 using Umi.Wbp.Demo.Dialogs;
 using Umi.Wbp.Demo.Localization;
 using Umi.Wbp.Demo.Routers;
+using Umi.Wbp.Dialogs;
 using Umi.Wbp.Localization;
 using Umi.Wbp.Message;
 using Umi.Wbp.Routers;
@@ -15,7 +17,7 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace Umi.Wbp.Demo;
 
-[DependsOn(typeof(WbpModule), typeof(WbpMessageModule))]
+[DependsOn(typeof(WbpModule), typeof(WbpMessageModule), typeof(WbpCommandModule), typeof(WbpDialogModule))]
 public class DemoModule : AbpModule
 {
     private readonly ICollection<Route> routes = new List<Route>()

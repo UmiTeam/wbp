@@ -28,12 +28,13 @@ public class RouterService : IRouterService, ISingletonDependency
 
     public void Push(string url, IParameters navigationParameters){
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
+        var routerViews = GetChildRouter(routerHost);
         NavigationContext navigationContext = new(navigationParameters, CurrentEntry?.Path, url);
         wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, (newUrl, canNavigate) =>
         {
             if (!canNavigate) return;
             navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
-            Navigate(newUrl, wbpRouterOptions.Value.Routes, routerHost.RouterViews, navigationContext);
+            Navigate(newUrl, wbpRouterOptions.Value.Routes, routerViews, navigationContext);
 
             var navigationJournalEntry = new NavigationJournalEntry(url, navigationParameters);
             RecordNavigation(navigationJournalEntry);
@@ -107,7 +108,7 @@ public class RouterService : IRouterService, ISingletonDependency
 
 
         Route targetRoute = null;
-        foreach (var route in routes){
+        foreach (var route in routes ?? Array.Empty<Route>()){
             if (route.Path.Trim('/') == path){
                 targetRoute = route;
                 break;

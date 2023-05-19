@@ -25,7 +25,7 @@ public class CreateBookViewModel
     public ICommand CreateBookCommand { get; set; }
 
     private async Task CreateBookAsync(){
-        await bookAppService.CreateAsync(Book);
+        // await bookAppService.CreateAsync(Book);
         messageService.ShowMessage("Create book success!",TimeSpan.FromSeconds(5));
     }
 }

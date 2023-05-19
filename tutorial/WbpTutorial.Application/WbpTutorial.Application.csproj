@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Umi.Wbp.Application\Umi.Wbp.Application.csproj" />
       <ProjectReference Include="..\WbpTutorial.Domain\WbpTutorial.Domain.csproj" />
     </ItemGroup>
 
