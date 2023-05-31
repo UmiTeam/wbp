@@ -63,7 +63,7 @@ public class DemoModule : AbpModule
             options.BeforeEach = (context, next) =>
             {
                 // MessageBox.Show($"From:[{context.From}]-To:[{context.To}]");
-                next(context.To, true);
+                next(context.To);
             };
         });
         Configure<WbpLocalizationOptions>(options => { options.LocalizationResource = typeof(DemoResource); });

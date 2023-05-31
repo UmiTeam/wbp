@@ -244,14 +244,14 @@ routerService.GoForward(); // 回到前序页面.
 ``` C#
 options.BeforeEach=(context, next) =>
 {
-    next(context.To, true);  // context.To
-    next(context.To, false); // false取消导航
+    next(context.To);  // context.To
+    next(context.To); // false取消导航
 };
 ```
 
-守卫方法有两个参数：
-context: 路由上下文, 包括路由参数, to路由地址, from路由地址.
-next: 路由回调, 接收两个参数; 第一个参数表示导航前往的地址, 第二个表示是否可以导航.
+守卫方法有两个参数：<br/>
+* context: 路由上下文, 包括路由参数, to路由地址, from路由地址.
+* next: 路由回调, 参数表示导航前往的地址.
 
 #### 全局后置钩子
 

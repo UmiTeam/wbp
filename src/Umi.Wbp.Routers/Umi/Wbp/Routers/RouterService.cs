@@ -30,10 +30,10 @@ public class RouterService : IRouterService, ISingletonDependency
         var routerHost = serviceProvider.GetRequiredService<IRouterHost>();
         var routerViews = GetChildRouter(routerHost);
         NavigationContext navigationContext = new(navigationParameters, CurrentEntry?.Path, url);
-        wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, (newUrl, canNavigate) =>
+        wbpRouterOptions.Value.BeforeEach?.Invoke(navigationContext, (newUrl) =>
         {
-            if (!canNavigate) return;
             navigationContext = new(navigationContext.Parameters, CurrentEntry?.Path, newUrl);
+
             Navigate(newUrl, wbpRouterOptions.Value.Routes, routerViews, navigationContext);
 
             var navigationJournalEntry = new NavigationJournalEntry(url, navigationParameters);

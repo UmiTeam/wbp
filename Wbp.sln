@@ -64,6 +64,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zh-Hans", "zh-Hans", "{8E95
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wbp.Tutorial.Wpf", "tutorial\Wbp.Tutorial.Wpf\Wbp.Tutorial.Wpf.csproj", "{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umi.Wbp.Router.Test", "test\Umi.Wbp.Router.Test\Umi.Wbp.Router.Test.csproj", "{F60367C0-C906-4DB2-8F6E-F6236C90830B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{B803E326-3A8A-4F98-89A6-92E94B671FDD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +95,7 @@ Global
 		{C652BF32-B309-4484-B46E-AEE218F80E58} = {418FEF9F-7EC2-49DB-93BE-59679C596F2D}
 		{8E95613B-A3D1-4DBD-8492-CBF7EAC145BD} = {418FEF9F-7EC2-49DB-93BE-59679C596F2D}
 		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA} = {120B953E-23A5-4EE8-96B7-DEA37EFCCBE8}
+		{F60367C0-C906-4DB2-8F6E-F6236C90830B} = {43319172-2FCA-4872-8EE9-3C54204D4DB7}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D384C36-7FDC-4072-B4D9-7BBEE4890B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -154,5 +162,9 @@ Global
 		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4DC8301-C70B-40F1-B954-6E0FECD6A3EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60367C0-C906-4DB2-8F6E-F6236C90830B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60367C0-C906-4DB2-8F6E-F6236C90830B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60367C0-C906-4DB2-8F6E-F6236C90830B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60367C0-C906-4DB2-8F6E-F6236C90830B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -60,7 +60,7 @@ public class TutorialModule : AbpModule
             
             options.BeforeEach=(context, next) =>
             {
-                next(context.To, true);
+                next(context.To);
             };
 
             options.AfterEach = (context) =>

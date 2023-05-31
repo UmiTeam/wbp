@@ -38,7 +38,7 @@ public class WbpTutorialWpfModule : AbpModule
         Configure<WbpRouterOptions>(options =>
         {
             options.Routes = routes;
-            options.BeforeEach = (context, next) => { next(context.To, true); };
+            options.BeforeEach = (context, next) => { next(context.To); };
         });
 
         Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<WbpTutorialWpfModule>(); });
